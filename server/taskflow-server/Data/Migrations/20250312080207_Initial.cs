@@ -164,8 +164,8 @@ namespace taskflow_server.Data.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "varchar(50)", nullable: false)
                 },
@@ -209,8 +209,8 @@ namespace taskflow_server.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "varchar(50)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -225,22 +225,20 @@ namespace taskflow_server.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProjectColumns",
+                name: "Columns",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ProjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Position = table.Column<int>(type: "int", nullable: false),
-                    FileRequired = table.Column<bool>(type: "bit", nullable: false),
-                    Created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Updated_at = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    FileRequired = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjectColumns", x => x.Id);
+                    table.PrimaryKey("PK_Columns", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProjectColumns_Projects_ProjectId",
+                        name: "FK_Columns_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
@@ -284,9 +282,9 @@ namespace taskflow_server.Data.Migrations
                 {
                     table.PrimaryKey("PK_Tasks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tasks_ProjectColumns_ColumnId",
+                        name: "FK_Tasks_Columns_ColumnId",
                         column: x => x.ColumnId,
-                        principalTable: "ProjectColumns",
+                        principalTable: "Columns",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -331,8 +329,8 @@ namespace taskflow_server.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProjectColumns_ProjectId",
-                table: "ProjectColumns",
+                name: "IX_Columns_ProjectId",
+                table: "Columns",
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
@@ -386,7 +384,7 @@ namespace taskflow_server.Data.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "ProjectColumns");
+                name: "Columns");
 
             migrationBuilder.DropTable(
                 name: "Projects");

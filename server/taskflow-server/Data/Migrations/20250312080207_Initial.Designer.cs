@@ -12,7 +12,7 @@ using taskflow_server.Data;
 namespace taskflow_server.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250312043820_Initial")]
+    [Migration("20250312080207_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -107,12 +107,10 @@ namespace taskflow_server.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -149,12 +147,10 @@ namespace taskflow_server.Data.Migrations
                         .HasColumnType("varchar(50)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -196,6 +192,32 @@ namespace taskflow_server.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Attachments");
+                });
+
+            modelBuilder.Entity("taskflow_server.Data.Entities.Column", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("FileRequired")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("Columns");
                 });
 
             modelBuilder.Entity("taskflow_server.Data.Entities.Comment", b =>
@@ -253,38 +275,6 @@ namespace taskflow_server.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Projects");
-                });
-
-            modelBuilder.Entity("taskflow_server.Data.Entities.ProjectColumn", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Created_at")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("FileRequired")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Position")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("ProjectId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("Updated_at")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProjectId");
-
-                    b.ToTable("ProjectColumns");
                 });
 
             modelBuilder.Entity("taskflow_server.Data.Entities.ProjectMember", b =>
@@ -492,7 +482,7 @@ namespace taskflow_server.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("taskflow_server.Data.Entities.ProjectColumn", b =>
+            modelBuilder.Entity("taskflow_server.Data.Entities.Column", b =>
                 {
                     b.HasOne("taskflow_server.Data.Entities.Project", null)
                         .WithMany()
@@ -512,7 +502,7 @@ namespace taskflow_server.Data.Migrations
 
             modelBuilder.Entity("taskflow_server.Data.Entities.TaskModel", b =>
                 {
-                    b.HasOne("taskflow_server.Data.Entities.ProjectColumn", null)
+                    b.HasOne("taskflow_server.Data.Entities.Column", null)
                         .WithMany()
                         .HasForeignKey("ColumnId")
                         .OnDelete(DeleteBehavior.Cascade)

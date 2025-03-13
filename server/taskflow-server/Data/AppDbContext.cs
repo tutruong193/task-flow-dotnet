@@ -21,19 +21,19 @@ namespace taskflow_server.Data
                 .WithMany(p => p.Members)
                 .HasForeignKey(pm => pm.ProjectId);
 
-            modelBuilder.Entity<ProjectColumn>()
+            modelBuilder.Entity<Column>()
                 .HasOne<Project>()
                 .WithMany()
                 .HasForeignKey(pc => pc.ProjectId);
 
             modelBuilder.Entity<TaskModel>()
-                .HasOne<ProjectColumn>()
+                .HasOne<Column>()
                 .WithMany()
                 .HasForeignKey(t => t.ColumnId);
         }
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectMember> ProjectMembers { get; set; }
-        public DbSet<ProjectColumn> ProjectColumns { get; set; }
+        public DbSet<Column> Columns { get; set; }
         public DbSet<TaskModel> Tasks { get; set; }
         public DbSet<TaskAssignee> TaskAssignees { get; set; }
         public DbSet<Comment> Comments { get; set; }

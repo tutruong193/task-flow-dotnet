@@ -4,7 +4,7 @@ using taskflow_server.Data.Interface;
 
 namespace taskflow_server.Data.Entities
 {
-    public class ProjectColumn : IDateTracking
+    public class Column 
     {
         [Key]
         public Guid Id { get; set; }
@@ -18,7 +18,5 @@ namespace taskflow_server.Data.Entities
         public int Position { get; set; }
 
         public bool FileRequired { get; set; } // Yêu cầu đính kèm file?
-        public DateTime Created_at { get  ; set  ; }
-        public DateTime? Updated_at { get  ; set  ; }
     }
 }
