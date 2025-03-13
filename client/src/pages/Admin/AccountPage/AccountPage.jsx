@@ -42,21 +42,21 @@ const AccountPage = () => {
       render: (phone) => (phone ? phone : "None"),
     },
     {
-      title: "Roles",
-      key: "roles",
-      dataIndex: "roles",
+      title: "Role",
+      key: "role",
+      dataIndex: "role",
       filters: [
-        { text: "Manager", value: "manager" },
-        { text: "Member", value: "member" },
+        { text: "Manager", value: "Manager" },
+        { text: "Member", value: "Member" },
       ],
       onFilter: (value, record) => record.roles === value,
       render: (role) => {
         // Xác định màu dựa trên vai trò
         let color =
-          role === "member" ? "green" : role === "manager" ? "gold" : "default";
+          role === "Member" ? "green" : role === "Manager" ? "gold" : "default";
         return (
           <Tag color={color} key={role}>
-            {role.toUpperCase()} {/* Chuyển đổi role thành chữ hoa */}
+            {role?.toUpperCase()} {/* Chuyển đổi role thành chữ hoa */}
           </Tag>
         );
       },
@@ -64,13 +64,13 @@ const AccountPage = () => {
 
     {
       title: "Data Added",
-      dataIndex: "createdAt",
-      key: "createdAt",
+      dataIndex: "createDate_At",
+      key: "createDate_At",
     },
     {
       title: "Data Updated",
-      dataIndex: "updatedAt",
-      key: "updatedAt",
+      dataIndex: "updated_at",
+      key: "updated_at",
     },
     {
       title: "Action",
@@ -80,7 +80,7 @@ const AccountPage = () => {
           <div>
             <EditOutlined
               style={{ color: "red", fontSize: "30px", cursor: "pointer" }}
-              onClick={() => showModalEditUser(record?.key)}
+              onClick={() => showModalEditUser(record?.id)}
             />
             <Popconfirm
               title="Delete the task"
@@ -109,18 +109,9 @@ const AccountPage = () => {
     config: { retry: 3, retryDelay: 1000 },
   });
   const { data: users } = userQuerry;
-  const dataTable =
-    users?.data
-      ?.filter((user) => user.role !== "admin")
-      .map((user) => ({
-        key: user._id,
-        name: user.name,
-        email: user.email,
-        roles: user.role,
-        phone: user.phone,
-        createdAt: new Date(user.createdAt).toLocaleString(),
-        updatedAt: new Date(user.updatedAt).toLocaleString(),
-      })) || [];
+  console.log("users", users?.data);
+  const dataTable = users?.data || [];
+
   ///model add user
   const [isModalAddUser, setIsModalAddUser] = useState(false);
   const showModalAddUser = () => {
@@ -214,7 +205,8 @@ const AccountPage = () => {
   const showModalEditUser = async (id) => {
     setIsModalEditUser(true);
     const res = await UserService.getDetailsUser(id);
-    if (res.status === "OK") {
+    console.log(res);
+    if (res.status == "200") {
       const userData = res.data;
       setStateEditUser(userData);
       formEdit.setFieldsValue({
@@ -384,9 +376,9 @@ const AccountPage = () => {
               },
             ]}
           >
-            <Radio.Group onChange={handleOnChangeRole} value={"manager"}>
-              <Radio value={"manager"}>Manager</Radio>
-              <Radio value={"member"}>Member</Radio>
+            <Radio.Group onChange={handleOnChangeRole}>
+              <Radio value={"Manager"}>Manager</Radio>
+              <Radio value={"Member"}>Member</Radio>
             </Radio.Group>
           </Form.Item>
         </Form>
@@ -451,8 +443,8 @@ const AccountPage = () => {
             ]}
           >
             <Radio.Group>
-              <Radio value={"manager"}>Manager</Radio>
-              <Radio value={"member"}>Member</Radio>
+              <Radio value={"Manager"}>Manager</Radio>
+              <Radio value={"Member"}>Member</Radio>
             </Radio.Group>
           </Form.Item>
         </Form>

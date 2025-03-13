@@ -69,6 +69,48 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "taskflow_server.Controllers.ProjectsController",
+    "Method": "PostProject",
+    "RelativePath": "api/Projects",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "taskflow_server.ViewModel.ProjectCreateRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "taskflow_server.Controllers.ProjectsController",
+    "Method": "GetProject",
+    "RelativePath": "api/Projects",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "taskflow_server.Controllers.ProjectsController",
+    "Method": "GetById",
+    "RelativePath": "api/Projects/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "taskflow_server.Controllers.UsersController",
     "Method": "PostUser",
     "RelativePath": "api/Users",
@@ -158,6 +200,22 @@
       {
         "Name": "request",
         "Type": "taskflow_server.ViewModel.LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "taskflow_server.Controllers.ProjectsController",
+    "Method": "GetProjectByManageId",
+    "RelativePath": "managed/{managerId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "managerId",
+        "Type": "System.String",
         "IsRequired": true
       }
     ],

@@ -15,16 +15,15 @@ const DashboardPage = () => {
     member: 0,
   });
   useEffect(() => {
-    // Simulate API data fetch
     const fetchData = async () => {
       try {
+        console.log("!");
         const [projectRes, userRes] = await Promise.all([
           ProjectService.getAllProject(),
           UserService.getAllUser(),
         ]);
-        if (projectRes?.status === "OK" && projectRes?.data) {
+        if (projectRes?.status === "200") {
           const projects = projectRes.data;
-
           const stats = {
             pending: 0,
             progress: 0,
@@ -41,13 +40,13 @@ const DashboardPage = () => {
         } else {
           console.error("Error fetching project details");
         }
-        if (userRes?.status === "OK" && userRes?.data) {
-          const users = userRes.data;
+        console.log(userRes);
+        if (userRes?.status == "200") {
           const userCounts = {
-            manager: 0,
-            member: 0,
+            Manager: 0,
+            Member: 0,
           };
-          users.forEach((user) => {
+          userRes.data.forEach((user) => {
             if (userCounts.hasOwnProperty(user.role)) {
               userCounts[user.role]++;
             }
@@ -70,7 +69,7 @@ const DashboardPage = () => {
     projectStats.progress +
     projectStats.done +
     projectStats.incompleted;
-  const totalAccount = totalUsers.manager + totalUsers.member;
+  const totalAccount = totalUsers.Manager + totalUsers.Member;
   return (
     <div style={{ width: "100%" }}>
       <div className="container_admin_account">
@@ -154,8 +153,8 @@ const DashboardPage = () => {
               <Row align="middle" justify="space-around" gutter={[16, 16]}>
                 {Object.entries(totalUsers).map(([role, value]) => {
                   const colorMap = {
-                    manager: "#fadb14",
-                    member: "#52c41a",
+                    Manager: "#fadb14",
+                    Member: "#52c41a",
                   };
                   return (
                     <Col xs={24} sm={12} key={role}>

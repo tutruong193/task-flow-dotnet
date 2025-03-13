@@ -60,7 +60,7 @@ namespace taskflow_server.Controllers
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
                 return NotFound();
-
+            var roles = await _userManager.GetRolesAsync(user);
             var userVm = new UserVm()
             {
                 Id = user.Id,
@@ -71,27 +71,38 @@ namespace taskflow_server.Controllers
                 Name = user.Name,
                 CreateDate_At = user.Created_at,
                 Updated_At = user.Updated_at,
+                Role = roles.First(),
             };
             return Ok(userVm);
         }
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            var users = _userManager.Users;
+            var users = await _userManager.Users.ToListAsync();
 
-            var uservms = await users.Select(u => new UserVm()
+            var userList = new List<UserVm>();
+
+            foreach (var u in users)
             {
-                Id = u.Id,
-                UserName = u.UserName,
-                Dob = u.Dob,
-                Email = u.Email,
-                PhoneNumber = u.PhoneNumber,
-                Name = u.Name,
-                CreateDate_At = u.Created_at,
-                Updated_At = u.Updated_at
-            }).ToListAsync();
+                var roles = await _userManager.GetRolesAsync(u);
+                if (!roles.Contains("Admin"))
+                {
+                    userList.Add(new UserVm
+                    {
+                        Id = u.Id,
+                        UserName = u.UserName,
+                        Dob = u.Dob,
+                        Email = u.Email,
+                        PhoneNumber = u.PhoneNumber,
+                        Name = u.Name,
+                        CreateDate_At = u.Created_at,
+                        Updated_At = u.Updated_at,
+                        Role = roles.First(),
+                    });
+                }
+            }
 
-            return Ok(uservms);
+            return Ok(userList);
         }
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(string id, [FromBody] UserCreateRequest request)
@@ -150,7 +161,13 @@ namespace taskflow_server.Controllers
             }
 
             var token = await GenerateJwtToken(user);
-            return Ok(new { Token = token });
+            return Ok(
+            new
+            {
+                token = "Bearer " + token,
+                status = "200",
+                message = "Successfully"
+            });
         }
         private async Task<string> GenerateJwtToken(User user)
         {
@@ -160,7 +177,7 @@ namespace taskflow_server.Controllers
                 new (JwtRegisteredClaimNames.Sub, user.Id),
                 new (JwtRegisteredClaimNames.Email, user.Email),
                 new ("name", user.UserName),
-                
+
             };
             foreach (var role in roles)
             {

@@ -5,7 +5,7 @@ export const jwtTranslate = (cookiesAccessToken) => {
     return null;
   }
   try {
-    const decodedToken = jwtDecode(cookiesAccessToken);
+    const decodedToken = jwtDecode(cookiesAccessToken.split(" ")[1]);
     return decodedToken;
   } catch (error) {
     console.error("Error decoding JWT token:", error);

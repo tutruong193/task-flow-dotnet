@@ -3,14 +3,13 @@ import axios from "axios";
 import Cookies from "js-cookie";
 const access_token = Cookies.get("access_token");
 export const getAllProject = async () => {
-  const res = await axios.get(
-    `${process.env.REACT_APP_API_URL}/api/project/getall`
-  );
-  return res.data;
+  const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/projects`);
+  return res;
 };
 export const createProject = async (data) => {
+  console.log("data", data);
   const res = await axios.post(
-    `${process.env.REACT_APP_API_URL}/api/project/create`,
+    `${process.env.REACT_APP_API_URL}/api/projects`,
     data,
     {
       headers: {
@@ -18,7 +17,7 @@ export const createProject = async (data) => {
       },
     }
   );
-  return res.data;
+  return res;
 };
 export const deleteProject = async (projectId) => {
   const res = await axios.delete(

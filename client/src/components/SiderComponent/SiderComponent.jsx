@@ -23,8 +23,9 @@ const SiderComponent = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const infoUser = jwtTranslate(cookiesAccessToken.access_token);
-  const isManager = infoUser?.role?.includes("manager");
-  const isAdmin = infoUser?.role?.includes("admin");
+  const isManager = infoUser?.role?.toLowerCase() == "manager";
+  const isAdmin = infoUser?.role?.toLowerCase() == "admin";
+  console.log(cookiesAccessToken.access_token);
   const location = useLocation();
   // const defaultSelectedKey = isAdmin ? "admin_dashboard" : "user_project_board";
   const lastpath = location.pathname.split("/").pop();

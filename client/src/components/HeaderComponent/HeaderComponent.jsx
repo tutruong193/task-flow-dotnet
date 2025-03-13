@@ -59,7 +59,7 @@ const HeaderComponent = () => {
   const fetchDataUser = async () => {
     try {
       const res = await UserService.getDetailsUser(
-        jwtTranslate(accessToken)?.id
+        jwtTranslate(accessToken)?.sub
       );
       setStateUser(res?.data);
     } catch (error) {
@@ -152,8 +152,8 @@ const HeaderComponent = () => {
     }
   };
   ////logout
-  const handleLogoutClick = async () => {
-    await UserService.logoutUser();
+  const handleLogoutClick = () => {
+    // await UserService.logoutUser();
     navigate("/login");
     window.location.reload();
   };
@@ -168,7 +168,7 @@ const HeaderComponent = () => {
       }}
     >
       <Avatar
-        src={stateUser.avatar}
+        src={stateUser?.avatar}
         icon={<UserOutlined />}
         size={60}
         style={{ marginBottom: "10px" }}
@@ -205,11 +205,11 @@ const HeaderComponent = () => {
         <LogoComponent />
       </div>
       <div className="container-header-right">
-        <div className="header-icon">
+        {/* <div className="header-icon">
           {jwtTranslate(accessToken)?.role !== "admin" && (
             <NotificationComponent />
           )}
-        </div>
+        </div> */}
         <Popover
           placement="bottomRight"
           trigger={"hover"}
@@ -217,7 +217,7 @@ const HeaderComponent = () => {
           content={content}
         >
           <div className="header-icon">
-            <Avatar src={stateUser.avatar} icon={<UserOutlined />} size={30} />
+            <Avatar src={stateUser?.avatar} icon={<UserOutlined />} size={30} />
           </div>
         </Popover>
       </div>

@@ -28,7 +28,7 @@ const UserManagerProjectPage = () => {
   const [cookiesAccessToken, setCookieAccessToken, removeCookie] =
     useCookies("");
   const infoUser = jwtTranslate(cookiesAccessToken.access_token);
-  const isManager = infoUser?.role === "manager";
+  const isManager = infoUser?.role === "Manager";
   // Fetch projects
   const fetchProjectAll = async () => {
     const res = await ProjectService.getAllProject();
@@ -47,7 +47,6 @@ const UserManagerProjectPage = () => {
       project.managerID === infoUser?.id ||
       project.members?.some((member) => member === infoUser?.id)
   );
-  console.log(dataProject);
   // Modal add project
   const [formAddProject] = Form.useForm();
   const [isModalAddProject, setIsModalAddProject] = useState(false);
@@ -59,11 +58,12 @@ const UserManagerProjectPage = () => {
         const res = await UserService.getAllUser();
         // Format userData to suit AutoComplete's requirement
         const formattedUsers = res?.data
-          .filter((user) => user.role.includes("member"))
+          .filter((user) => user.role == "Member")
           .map((user) => ({
             label: user.name,
-            value: user._id,
+            value: user.id,
           }));
+        console.log(formattedUsers);
         setUserData(formattedUsers || []);
       } catch (e) {
         console.log(e);
@@ -77,7 +77,7 @@ const UserManagerProjectPage = () => {
     description: "",
     startDate: "",
     endDate: "",
-    managerID: infoUser?.id,
+    managerID: infoUser?.sub,
     members: [],
   });
   const handleOnChangeAddProject = (e) => {
@@ -117,7 +117,7 @@ const UserManagerProjectPage = () => {
       description: "",
       startDate: "",
       endDate: "",
-      managerID: infoUser?.id,
+      managerID: infoUser?.sub,
       members: [],
     });
     formAddProject.resetFields();
@@ -126,7 +126,7 @@ const UserManagerProjectPage = () => {
     try {
       await formAddProject.validateFields();
       const res = await ProjectService.createProject(stateAddProject);
-      if (res.status === "OK") {
+      if (res.status == "200" || res.status == "201") {
         Message.success("Project added successfully");
         setStateAddProject({
           name: "",

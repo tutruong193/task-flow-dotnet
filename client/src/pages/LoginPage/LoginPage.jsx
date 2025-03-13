@@ -25,16 +25,21 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     const res = await UserService.loginUser({ email, password });
-    if (res?.status === "OK") {
+    console.log(res);
+    if (res?.status === "200") {
       Message.success("Login successful");
-      setCookieAccessToken("access_token", res?.access_token, {
-        path: "/",
-        maxAge: 3600,
-        secure: true,
-        sameSite: "strict",
-      });
-      const user = jwtTranslate(res?.access_token);
-      if (user?.role.includes("admin")) {
+      setCookieAccessToken(
+        "access_token",
+        "Bearer " + res?.token.split(" ")[1],
+        {
+          path: "/",
+          maxAge: 3600,
+          secure: true,
+          sameSite: "strict",
+        }
+      );
+      const user = jwtTranslate(res?.token);
+      if (user?.role.toLowerCase() == "admin") {
         navigate("/system/admin/dashboard");
       } else if (!user?.role.includes("admin")) {
         navigate("/system/user/your-work");
