@@ -6,8 +6,13 @@ export const getAllProject = async () => {
   const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/projects`);
   return res;
 };
+export const getAllProjectByManagerID = async (managerId) => {
+  const res = await axios.get(
+    `${process.env.REACT_APP_API_URL}/api/projects/managed/${managerId}`
+  );
+  return res;
+};
 export const createProject = async (data) => {
-  console.log("data", data);
   const res = await axios.post(
     `${process.env.REACT_APP_API_URL}/api/projects`,
     data,
@@ -44,9 +49,9 @@ export const updateProject = async (projectId, data) => {
 };
 export const getDetailProjectProject = async (projectId) => {
   const res = await axios.get(
-    `${process.env.REACT_APP_API_URL}/api/project/detail/${projectId}`
+    `${process.env.REACT_APP_API_URL}/api/projects/${projectId}`
   );
-  return res.data;
+  return res;
 };
 export const AddMember = async (projectId, userId) => {
   const res = await axios.put(

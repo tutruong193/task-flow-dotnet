@@ -1,6 +1,7 @@
 ﻿using Azure.Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using taskflow_server.Data;
 using taskflow_server.Data.Entities;
 using taskflow_server.ViewModel;
@@ -54,6 +55,19 @@ namespace taskflow_server.Controllers
                 ProjectId = column.ProjectId
             };
             return Ok(columnReturn);
+        }
+        [HttpGet("project/{projectId}")]
+        public async Task<IActionResult> GetColumnByProjectId(string projectId)
+        {
+            Guid projectGuid;
+            if (!Guid.TryParse(projectId, out projectGuid))
+            {
+                return BadRequest("UserId không hợp lệ.");
+            }
+            var columns = await _context.Columns.Where(c => c.ProjectId == projectGuid).OrderBy(c => c.Position).ToListAsync();
+            if (columns == null)
+                return NotFound();
+            return Ok(columns);
         }
         [HttpPut("{id}")]
         public async Task<IActionResult> PutColumn(string id, [FromBody] Column request)

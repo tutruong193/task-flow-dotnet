@@ -3,12 +3,9 @@ import Cookies from "js-cookie";
 const access_token = Cookies.get("access_token");
 export const getAllTask = async (projectId) => {
   const res = await axios.get(
-    `${process.env.REACT_APP_API_URL}/api/task/getall`,
-    {
-      params: { projectId }, // Gửi projectId dưới dạng query parameter
-    }
+    `${process.env.REACT_APP_API_URL}/api/tasks/project/${projectId}`
   );
-  return res.data;
+  return res;
 };
 export const createTask = async (data) => {
   const res = await axios.post(

@@ -185,7 +185,6 @@ const ForgotPassword = () => {
             newPassword,
             "forget"
           );
-          console.log(resetResponse);
           if (resetResponse.status === "OK") {
             Message.success("Password reset successfully!");
             navigate("/login");

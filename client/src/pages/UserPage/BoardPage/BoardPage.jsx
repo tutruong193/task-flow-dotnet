@@ -4,6 +4,7 @@ import { useCookies } from "react-cookie";
 import * as TaskService from "../../../services/TaskService";
 import * as ProjectService from "../../../services/ProjectService";
 import * as UserService from "../../../services/UserService";
+import * as ColumnService from "../../../services/ColumnService";
 import AddPeopleModal from "../../../components/ModalAddPeople/ModelAddPeople";
 import {
   SearchOutlined,
@@ -30,84 +31,92 @@ const BoardPage = () => {
   ///lấy dữ liệu để set name và avatar
   const [userList, setUserList] = useState([]);
   const takeAvatar = (id) => {
-    const user = userList.find((user) => user._id === id);
+    const user = userData.find((user) => user.id === id);
     return user ? user.avatar : null;
   };
   const takeName = (id) => {
-    const user = userList.find((user) => user._id === id);
+    const user = userData.find((user) => user.id === id);
     return user ? user.name : null;
   };
   const takeEmail = (id) => {
-    const user = userList.find((user) => user._id === id);
+    const user = userData.find((user) => user.id === id);
     return user ? user.email : null;
   };
   const projectId = localStorage.getItem("projectId");
-  const [columns, setColumns] = useState({
-    todo: { name: "TO DO", count: 1, items: [] },
-    progress: { name: "IN PROGRESS", count: 1, items: [] },
-    done: { name: "DONE", count: 3, items: [] },
-  });
+  const [columns, setColumns] = useState([]);
   const [stateProject, setStateProject] = useState([]);
   const [userData, setUserData] = useState([]);
   const [cookiesAccessToken] = useCookies("");
   const infoUser = jwtTranslate(cookiesAccessToken.access_token);
   const isExpired = new Date() > new Date(stateProject?.endDate);
-  const isManager = infoUser?.role === "manager";
+  const isManager = infoUser?.role === "Manager";
   const fetchAllData = async () => {
     try {
-      const [projectRes, userRes, taskRes] = await Promise.all([
+      const [projectRes, userRes, taskRes, columnRes] = await Promise.all([
         ProjectService.getDetailProjectProject(projectId),
         UserService.getAllUser(),
         TaskService.getAllTask(projectId),
+        ColumnService.getColumnByProjectId(projectId),
       ]);
 
-      if (projectRes.status === "OK") {
+      if (columnRes.status === 200) {
+        // Tạo columnsWithMeta với items là mảng rỗng và count ban đầu là 0
+        const columnsWithMeta = columnRes.data.map((col) => ({
+          ...col,
+          count: 0, // Ban đầu đặt count là 0
+          items: [], // Ban đầu items là mảng rỗng
+        }));
+
+        // Cập nhật state columns
+        setColumns(columnsWithMeta);
+
+        if (taskRes.status === 200) {
+          const taskData = taskRes.data;
+
+          // Cập nhật items và count cho từng column
+          const updatedColumns = columnsWithMeta.map((col) => {
+            // Lọc các task có columnId trùng với id của column
+            const columnTasks = taskData.filter(
+              (task) => task.columnId === col.id
+            );
+
+            // Cập nhật items và count
+            return {
+              ...col,
+              items: columnTasks,
+              count: columnTasks.length,
+            };
+          });
+
+          // Cập nhật lại state columns với dữ liệu task đã được thêm vào
+          setColumns(updatedColumns);
+        } else {
+          console.error("Error fetching task list");
+        }
+      } else {
+        console.error("Error fetching column details");
+      }
+
+      if (projectRes.status === 200) {
         setStateProject(projectRes.data);
       } else {
         console.error("Error fetching project details");
       }
-      if (userRes.status === "OK") {
+
+      if (userRes.status === 200) {
         const existingMemberIds = new Set(
           projectRes.data.members.map((member) => member.userId)
         );
-        existingMemberIds.add(projectRes.data.managerID);
-        existingMemberIds.add("66f4f0f9aa581e424317d838");
         const filteredUserList = userRes.data
-          .filter((user) => !existingMemberIds.has(user._id))
+          .filter((user) => !existingMemberIds.has(user.id))
           .map((user) => ({
             label: user.name,
             value: user._id,
           }));
-
-        setUserData(filteredUserList);
-        setUserList(
-          userRes?.data?.filter((user) => !user.role.includes("admin"))
-        );
+        setUserData(userRes?.data);
+        setUserList(filteredUserList);
       } else {
-        console.error("Error fetching project details");
-      }
-      if (taskRes.status === "OK") {
-        const taskData = taskRes.data;
-        const newColumns = {
-          todo: {
-            name: "TO DO",
-            count: taskData.filter((task) => task.status === "todo").length,
-            items: taskData.filter((task) => task.status === "todo"),
-          },
-          progress: {
-            name: "IN PROGRESS",
-            count: taskData.filter((task) => task.status === "progress").length,
-            items: taskData.filter((task) => task.status === "progress"),
-          },
-          done: {
-            name: "DONE",
-            count: taskData.filter((task) => task.status === "done").length,
-            items: taskData.filter((task) => task.status === "done"),
-          },
-        };
-        setColumns(newColumns);
-      } else {
-        console.error("Error fetching task list");
+        console.error("Error fetching user details");
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -116,7 +125,7 @@ const BoardPage = () => {
   useEffect(() => {
     fetchAllData();
   }, []);
-
+  console.log(columns);
   const onDragEnd = async (result) => {
     if (!result.destination) return;
 
@@ -206,10 +215,7 @@ const BoardPage = () => {
   if (stateProject?.members) {
     // Sử dụng members thay vì membersID
     for (let i = 0; i < stateProject.members.length; i++) {
-      options.push({
-        value: stateProject.members[i], // ID thành viên
-        label: takeName(stateProject.members[i]), // Tên thành viên
-      });
+      options.push(stateProject.members[i]);
     }
   }
   //add members to project
@@ -301,27 +307,27 @@ const BoardPage = () => {
             }}
           >
             {options.map((member) =>
-              takeAvatar(member?.value) ? (
+              takeAvatar(member?.userId) ? (
                 <Avatar
-                  key={member?.value}
-                  src={takeAvatar(member?.value)} // Hiển thị avatar từ URL
-                  alt={takeName(member?.value)}
-                  title={takeName(member?.value)}
+                  key={member?.userId}
+                  src={takeAvatar(member?.userId)} // Hiển thị avatar từ URL
+                  alt={takeName(member?.userId)}
+                  title={takeName(member?.userId)}
                   style={{
                     cursor: "pointer",
                   }}
                 />
               ) : (
                 <Avatar
-                  key={member?.value}
+                  key={member?.userId}
                   style={{
                     backgroundColor: "#87d068",
                     cursor: "pointer",
                   }}
-                  alt={takeName(member?.value)}
-                  title={takeName(member?.value)}
+                  alt={takeName(member?.userId)}
+                  title={takeName(member?.userId)}
                 >
-                  {takeName(member?.value)?.charAt(0).toUpperCase()}
+                  {takeName(member?.userId)?.charAt(0).toUpperCase()}
                 </Avatar>
               )
             )}
@@ -330,19 +336,6 @@ const BoardPage = () => {
             <Avatar icon={<PlusOutlined />} onClick={showModalAddPeople} />
           )}
         </div>
-        <AddPeopleModal
-          isVisible={isModalAddPeopleOpen}
-          onCancel={handleCancelAddPeople}
-          onAddPeople={handleOkAddPeople}
-          userData={userData}
-          currentMembers={stateProject.members}
-          onChange={setValue}
-          onRemoveMember={handleRemoveMember}
-          value={value}
-          takeAvatar={takeAvatar}
-          takeName={takeName}
-          takeEmail={takeEmail}
-        />
         <div className="toolbar-right">
           {!isExpired && isManager && (
             <Button
@@ -373,6 +366,19 @@ const BoardPage = () => {
         handleAddTask={handleAddTask}
         form={form}
         options={options}
+      />
+      <AddPeopleModal
+        isVisible={isModalAddPeopleOpen}
+        onCancel={handleCancelAddPeople}
+        onAddPeople={handleOkAddPeople}
+        userList={userList}
+        currentMembers={stateProject.members}
+        onChange={setValue}
+        onRemoveMember={handleRemoveMember}
+        value={value}
+        takeAvatar={takeAvatar}
+        takeName={takeName}
+        takeEmail={takeEmail}
       />
     </div>
   );

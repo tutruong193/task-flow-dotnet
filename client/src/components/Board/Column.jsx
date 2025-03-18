@@ -25,7 +25,7 @@ const Column = ({ columnId, column, fetchAllData }) => {
           >
             {column.items.map((item, index) => (
               <Item
-                key={item._id}
+                key={item.id}
                 item={item}
                 index={index}
                 fetchAllData={fetchAllData}

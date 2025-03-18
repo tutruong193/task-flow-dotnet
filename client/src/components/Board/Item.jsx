@@ -72,10 +72,8 @@ const Item = ({ item, index, fetchAllData }) => {
     try {
       const userRes = await UserService.getAllUser();
 
-      if (userRes.status === "OK") {
-        setUserList(
-          userRes?.data?.filter((user) => !user.role.includes("admin"))
-        );
+      if (userRes.status == 200) {
+        setUserList(userRes.data);
       } else {
         console.error("Error fetching project details");
       }
@@ -97,7 +95,7 @@ const Item = ({ item, index, fetchAllData }) => {
   };
   return (
     <div>
-      <Draggable draggableId={item._id} index={index}>
+      <Draggable draggableId={item.id} index={index}>
         {(provided, snapshot) => (
           <div
             ref={provided.innerRef}

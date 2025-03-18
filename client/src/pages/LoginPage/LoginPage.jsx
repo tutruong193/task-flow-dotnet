@@ -25,7 +25,6 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     const res = await UserService.loginUser({ email, password });
-    console.log(res);
     if (res?.status === "200") {
       Message.success("Login successful");
       setCookieAccessToken(

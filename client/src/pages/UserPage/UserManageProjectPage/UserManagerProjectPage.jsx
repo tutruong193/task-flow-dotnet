@@ -30,23 +30,18 @@ const UserManagerProjectPage = () => {
   const infoUser = jwtTranslate(cookiesAccessToken.access_token);
   const isManager = infoUser?.role === "Manager";
   // Fetch projects
-  const fetchProjectAll = async () => {
-    const res = await ProjectService.getAllProject();
-    return res;
+  const fetchProjectAllByManageID = async () => {
+    const res = await ProjectService.getAllProjectByManagerID(infoUser?.sub);
+    return res.data;
   };
 
   const projectQuerry = useQuery({
     queryKey: ["projects"],
-    queryFn: fetchProjectAll,
+    queryFn: fetchProjectAllByManageID,
     config: { retry: 3, retryDelay: 1000 },
   });
 
-  const { data: projects } = projectQuerry;
-  const dataProject = projects?.data?.filter(
-    (project) =>
-      project.managerID === infoUser?.id ||
-      project.members?.some((member) => member === infoUser?.id)
-  );
+  const { data: dataProject } = projectQuerry;
   // Modal add project
   const [formAddProject] = Form.useForm();
   const [isModalAddProject, setIsModalAddProject] = useState(false);
@@ -63,7 +58,6 @@ const UserManagerProjectPage = () => {
             label: user.name,
             value: user.id,
           }));
-        console.log(formattedUsers);
         setUserData(formattedUsers || []);
       } catch (e) {
         console.log(e);
@@ -172,19 +166,16 @@ const UserManagerProjectPage = () => {
             </div>
           </div>
           <Row className="projects" gutter={[16, 16]}>
-            {dataProject?.filter(
-              (project) => new Date(project.endDate) >= new Date()
-            ).length > 0 ? (
-              dataProject
-                ?.filter((project) => new Date(project.endDate) >= new Date())
-                .map((project) => (
-                  <Col key={project._id} span={4}>
-                    <ProjectCardComponent
-                      projectId={project._id}
-                      projectQuerry={projectQuerry}
-                    />
-                  </Col>
-                ))
+            {dataProject?.length > 0 ? (
+              dataProject.map((project) => (
+                <Col key={project.id} span={4}>
+                  <ProjectCardComponent
+                    projectId={project.id}
+                    projectQuerry={projectQuerry}
+                    projectData={project}
+                  />
+                </Col>
+              ))
             ) : (
               <Col span={24}>
                 <Empty

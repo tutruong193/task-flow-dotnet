@@ -40,67 +40,49 @@ const renderDate = (date) => {
   if (isNaN(parsedDate)) return "Invalid Date";
   return new Intl.DateTimeFormat("en-US", dateFormatOptions).format(parsedDate);
 };
-const ProjectCardComponent = ({ projectId, projectQuerry }) => {
+const ProjectCardComponent = ({ projectId, projectQuerry, projectData }) => {
   const [cookiesAccessToken, setCookieAccessToken, removeCookie] =
     useCookies("");
   const infoUser = jwtTranslate(cookiesAccessToken.access_token);
   const isManager = infoUser?.role === "manager";
   const navigate = useNavigate();
-  const [stateProject, setStateProject] = useState({
-    name: "",
-    description: "",
-    startDate: null,
-    endDate: null,
-    status: "",
-    members: [],
-  });
   //kiem tra xem het han hay chua
-  const isExpired = new Date() > new Date(stateProject?.endDate);
+  const isExpired = new Date() > new Date(projectData?.endDate);
   //lấy dữ liệu để set name và avatar
   const [userList, setUserList] = useState([]);
   const takAvatar = (id) => {
-    const user = userList.find((user) => user._id === id);
+    const user = userData.find((user) => user.id === id);
     return user ? user.avatar : null;
   };
   const takName = (id) => {
-    const user = userList.find((user) => user._id === id);
+    const user = userData.find((user) => user.id === id);
     return user ? user.name : null;
   };
   const [userData, setUserData] = useState([]);
   const [selectedMembers, setSelectedMembers] = useState();
   useEffect(() => {
-    const fetchProjectAndUsers = async () => {
+    const fetchUsers = async () => {
       try {
-        // Gọi đồng thời cả hai hàm API
-        const [projectRes, userRes] = await Promise.all([
-          ProjectService.getDetailProjectProject(projectId),
-          UserService.getAllUser(),
-        ]);
-        // Xử lý kết quả của project
-        if (projectRes.status === "OK") {
-          setStateProject(projectRes.data);
-          setSelectedMembers(projectRes.data.members);
-        } else {
-          console.error("Error fetching project details");
-        }
+        const userRes = await UserService.getAllUser();
+
         // Xử lý kết quả của user
-        if (userRes?.data) {
+        if (userRes?.data && userRes.status == 200) {
           const formattedUsers = userRes.data
-            .filter((user) => user.role.includes("member"))
+            .filter((user) => user.role == "Member")
             .map((user) => ({
               label: user.name,
-              value: user._id,
+              value: user.id,
             }));
-          setUserData(formattedUsers || []);
-          setUserList(
+          setUserData(
             userRes?.data?.filter((user) => !user.role.includes("admin"))
           );
+          setUserList(formattedUsers || []);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-    fetchProjectAndUsers();
+    fetchUsers();
     localStorage.removeItem("manage_project_info");
     localStorage.removeItem("projectId");
   }, [projectId]);
@@ -129,8 +111,11 @@ const ProjectCardComponent = ({ projectId, projectQuerry }) => {
   const handleCardClick = async () => {
     navigate(`/system/user/project/board`);
     localStorage.setItem("projectId", projectId);
-    const managerInfo = await fetchUserData(stateProject.managerID);
-    localStorage.setItem("manage_project_info", JSON.stringify(managerInfo));
+    // const managerId = projectData.members.Select(
+    //   (member) => member.role == "Manager"
+    // );
+    // const managerInfo = await fetchUserData(managerId);
+    // localStorage.setItem("manage_project_info", JSON.stringify(managerInfo));
   };
   // Hàm xử lý sự kiện Delete
   const handleDelete = async () => {
@@ -157,11 +142,11 @@ const ProjectCardComponent = ({ projectId, projectQuerry }) => {
   const handleEdit = () => {
     setIsEditModalVisible(true);
     formEdit.setFieldsValue({
-      name: stateProject.name,
-      description: stateProject.description,
-      startDate: dayjs(stateProject.startDate).local(), // Chuyển đổi về múi giờ địa phương
-      endDate: dayjs(stateProject.endDate).local(),
-      status: stateProject.status,
+      name: projectData.name,
+      description: projectData.description,
+      startDate: dayjs(projectData.startDate).local(), // Chuyển đổi về múi giờ địa phương
+      endDate: dayjs(projectData.endDate).local(),
+      status: projectData.status,
     });
   };
   const handleSaveEdit = async () => {
@@ -188,11 +173,10 @@ const ProjectCardComponent = ({ projectId, projectQuerry }) => {
   const handleCancelEdit = () => {
     setIsEditModalVisible(false);
   };
-  console.log(userData);
   return (
     <div>
       <Card
-        title={<div onClick={handleCardClick}>{stateProject?.name}</div>}
+        title={<div onClick={handleCardClick}>{projectData?.name}</div>}
         extra={
           !isExpired &&
           isManager && (
@@ -248,28 +232,28 @@ const ProjectCardComponent = ({ projectId, projectQuerry }) => {
               },
             }}
           >
-            {stateProject?.members?.map((member) =>
-              takAvatar(member) ? (
+            {projectData?.members?.map((member) =>
+              takAvatar(member.userId) ? (
                 <Avatar
-                  key={member}
-                  src={takAvatar(member)} // Hiển thị avatar từ URL
-                  alt={takName(member)}
-                  title={takName(member)}
+                  key={member.userId}
+                  src={takAvatar(member.userId)} // Hiển thị avatar từ URL
+                  alt={takName(member.userId)}
+                  title={takName(member.userId)}
                   style={{
                     cursor: "pointer",
                   }}
                 />
               ) : (
                 <Avatar
-                  key={member}
+                  key={member.userId}
                   style={{
                     backgroundColor: "#87d068",
                     cursor: "pointer",
                   }}
-                  alt={takName(member)}
-                  title={takName(member)}
+                  alt={takName(member.userId)}
+                  title={takName(member.userId)}
                 >
-                  {takName(member)?.charAt(0).toUpperCase()}
+                  {takName(member.userId)?.charAt(0).toUpperCase()}
                 </Avatar>
               )
             )}
@@ -278,24 +262,24 @@ const ProjectCardComponent = ({ projectId, projectQuerry }) => {
             style={{
               width: "fit-content",
               padding:
-                stateProject?.status === "incompleted" ? "0px 5px" : "0px 20px",
+                projectData?.status === "incompleted" ? "0px 5px" : "0px 20px",
               backgroundColor:
-                tags.find((tag) => tag.status === stateProject?.status)
+                tags.find((tag) => tag.status === projectData?.status)
                   ?.backgroundColor || "gray",
               color:
-                tags.find((tag) => tag.status === stateProject?.status)
-                  ?.color || "white",
+                tags.find((tag) => tag.status === projectData?.status)?.color ||
+                "white",
               marginRight: "5px",
             }}
           >
-            {stateProject?.status || "none"}
+            {projectData?.status || "none"}
           </div>,
         ]}
       >
         <div>
-          <div>{stateProject?.description || " "}</div>
-          <div>{renderDate(stateProject?.startDate)}</div>
-          <div>{renderDate(stateProject?.endDate)}</div>
+          <div>{projectData?.description || " "}</div>
+          <div>Start Date: {renderDate(projectData?.startDate)}</div>
+          <div>End Date: {renderDate(projectData?.endDate)}</div>
         </div>
       </Card>
       <Modal
@@ -318,7 +302,7 @@ const ProjectCardComponent = ({ projectId, projectQuerry }) => {
                 // Không cho phép chọn ngày trước hôm nay
                 return current && current < moment().startOf("day");
               }}
-              disabled={new Date() > new Date(stateProject.startDate)}
+              disabled={new Date() > new Date(projectData.startDate)}
             />
           </Form.Item>
           <Form.Item label="End Date" name="endDate">
@@ -332,7 +316,7 @@ const ProjectCardComponent = ({ projectId, projectQuerry }) => {
           </Form.Item>
           <Form.Item label="Members">
             <Select
-              defaultValue={stateProject.members}
+              defaultValue={projectData.members}
               mode="multiple"
               onChange={handleChangeSelectMember}
               options={userData}

@@ -87,7 +87,6 @@ const ListPage = () => {
       console.error("Error fetching data:", error);
     }
   };
-  console.log(userData);
   useEffect(() => {
     fetchTaskDataAndMemberList();
   }, [projectId]);

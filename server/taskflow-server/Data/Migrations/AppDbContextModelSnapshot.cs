@@ -322,14 +322,14 @@ namespace taskflow_server.Data.Migrations
                     b.Property<Guid>("ColumnId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("Created_at")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");

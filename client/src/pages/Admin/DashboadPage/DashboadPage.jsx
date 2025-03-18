@@ -17,7 +17,6 @@ const DashboardPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("!");
         const [projectRes, userRes] = await Promise.all([
           ProjectService.getAllProject(),
           UserService.getAllUser(),
@@ -40,7 +39,6 @@ const DashboardPage = () => {
         } else {
           console.error("Error fetching project details");
         }
-        console.log(userRes);
         if (userRes?.status == "200") {
           const userCounts = {
             Manager: 0,

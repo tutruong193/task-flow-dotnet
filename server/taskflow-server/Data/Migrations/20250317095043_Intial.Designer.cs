@@ -12,8 +12,8 @@ using taskflow_server.Data;
 namespace taskflow_server.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250312080207_Initial")]
-    partial class Initial
+    [Migration("20250317095043_Intial")]
+    partial class Intial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -325,14 +325,14 @@ namespace taskflow_server.Data.Migrations
                     b.Property<Guid>("ColumnId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("Created_at")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");

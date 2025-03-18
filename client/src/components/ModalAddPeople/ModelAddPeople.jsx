@@ -8,7 +8,7 @@ const AddPeopleModal = ({
   isVisible,
   onCancel,
   onAddPeople,
-  userData,
+  userList,
   currentMembers,
   onChange,
   onRemoveMember,
@@ -67,7 +67,7 @@ const AddPeopleModal = ({
                   .toLowerCase()
                   .localeCompare((optionB?.label ?? "").toLowerCase())
               }
-              options={userData}
+              options={userList}
             />
           </div>
         </div>
@@ -86,7 +86,7 @@ const AddPeopleModal = ({
                         type="text"
                         danger
                         icon={<DeleteOutlined />}
-                        onClick={() => onRemoveMember(member)}
+                        onClick={() => onRemoveMember(member.userId)}
                       >
                         Remove
                       </Button>
@@ -95,32 +95,32 @@ const AddPeopleModal = ({
                 >
                   <List.Item.Meta
                     avatar={
-                      takeAvatar(member) ? (
+                      takeAvatar(member.userId) ? (
                         <Avatar
-                          key={member}
-                          src={takeAvatar(member)} // Hiển thị avatar từ URL
-                          alt={takeName(member)}
-                          title={takeName(member)}
+                          key={member.userId}
+                          src={takeAvatar(member.userId)} // Hiển thị avatar từ URL
+                          alt={takeName(member.userId)}
+                          title={takeName(member.userId)}
                           style={{
                             cursor: "pointer",
                           }}
                         />
                       ) : (
                         <Avatar
-                          key={member}
+                          key={member.userId}
                           style={{
                             backgroundColor: "#87d068",
                             cursor: "pointer",
                           }}
-                          alt={takeName(member)}
-                          title={takeName(member)}
+                          alt={takeName(member.userId)}
+                          title={takeName(member.userId)}
                         >
-                          {takeName(member)?.charAt(0).toUpperCase()}
+                          {takeName(member.userId)?.charAt(0).toUpperCase()}
                         </Avatar>
                       )
                     }
-                    title={<Text>{takeName(member)}</Text>}
-                    description={takeEmail(member) || "No email"}
+                    title={<Text>{takeName(member.userId)}</Text>}
+                    description={takeEmail(member.userId) || "No email"}
                   />
                 </List.Item>
               )}

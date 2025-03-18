@@ -109,7 +109,6 @@ const AccountPage = () => {
     config: { retry: 3, retryDelay: 1000 },
   });
   const { data: users } = userQuerry;
-  console.log("users", users?.data);
   const dataTable = users?.data || [];
 
   ///model add user
@@ -205,7 +204,6 @@ const AccountPage = () => {
   const showModalEditUser = async (id) => {
     setIsModalEditUser(true);
     const res = await UserService.getDetailsUser(id);
-    console.log(res);
     if (res.status == "200") {
       const userData = res.data;
       setStateEditUser(userData);
@@ -228,7 +226,6 @@ const AccountPage = () => {
       ...stateEditUser,
       ...formEdit.getFieldsValue(),
     };
-    console.log(updatedUser);
     const res = await UserService.updateUser(stateEditUser?._id, updatedUser);
     if (res.status === "OK") {
       Message.success("User updated successfully!");
