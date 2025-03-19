@@ -28,7 +28,8 @@ const UserManagerProjectPage = () => {
   const [cookiesAccessToken, setCookieAccessToken, removeCookie] =
     useCookies("");
   const infoUser = jwtTranslate(cookiesAccessToken.access_token);
-  const isManager = infoUser?.role === "Manager";
+  const isManager = infoUser?.role == "Manager";
+  console.log(infoUser);
   // Fetch projects
   const fetchProjectAllByManageID = async () => {
     const res = await ProjectService.getAllProjectByManagerID(infoUser?.sub);
@@ -42,6 +43,7 @@ const UserManagerProjectPage = () => {
   });
 
   const { data: dataProject } = projectQuerry;
+  console.log(dataProject);
   // Modal add project
   const [formAddProject] = Form.useForm();
   const [isModalAddProject, setIsModalAddProject] = useState(false);

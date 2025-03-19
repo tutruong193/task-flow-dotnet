@@ -2,8 +2,11 @@
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 using taskflow_server.Data;
 using taskflow_server.Data.Entities;
+using taskflow_server.Services;
 using taskflow_server.ViewModel;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +16,22 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddFluentValidationAutoValidation();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+///add swagger
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "taskflow API",
+        Version = "v1",
+        Description = "API for taskflow application",
+        Contact = new OpenApiContact
+        {
+            Name = "Your Name",
+            Email = "your.email@example.com"
+        }
+    });
+    c.OperationFilter<FileUploadOperationFilter>();
+});
 //cors
 builder.Services.AddCors(options =>
 {
@@ -37,6 +55,7 @@ builder.Services.AddIdentity<User, IdentityRole>()
 
 //seed
 builder.Services.AddTransient<DbInitializer>();
+builder.Services.AddScoped<IStorageService, FileStorageService>();
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
@@ -44,7 +63,7 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var dbInitializer = services.GetRequiredService<DbInitializer>();
-        dbInitializer.Seed().Wait(); // Chạy seeding
+        dbInitializer.Seed().Wait();
     }
     catch (Exception ex)
     {
@@ -58,7 +77,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "taskflow API V1");
+});
+
 app.UseCors("AllowFrontend");
 
 app.UseHttpsRedirection();

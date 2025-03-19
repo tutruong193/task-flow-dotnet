@@ -6,6 +6,7 @@ import * as ProjectService from "../../../services/ProjectService";
 import * as UserService from "../../../services/UserService";
 import * as ColumnService from "../../../services/ColumnService";
 import AddPeopleModal from "../../../components/ModalAddPeople/ModelAddPeople";
+import ModelAddColumn from "../../../components/ModelAddColumn/ModelAddColumn";
 import {
   SearchOutlined,
   PlusOutlined,
@@ -125,7 +126,6 @@ const BoardPage = () => {
   useEffect(() => {
     fetchAllData();
   }, []);
-  console.log(columns);
   const onDragEnd = async (result) => {
     if (!result.destination) return;
 
@@ -139,15 +139,12 @@ const BoardPage = () => {
     movedItem.status = destination.droppableId;
 
     if (source.droppableId !== destination.droppableId) {
-      // destItems.splice(destination.index, 0, movedItem);
       try {
-        // Gọi API để cập nhật trạng thái trong DB
         const res = await TaskService.updateStatusTask(
-          movedItem._id,
-          infoUser.id,
-          movedItem.status
+          movedItem.id,
+          destColumn.id
         );
-        if (res.status === "OK") {
+        if (res.status == 200) {
           Message.success();
           destItems.splice(destination.index, 0, movedItem);
           setColumns({
@@ -180,9 +177,7 @@ const BoardPage = () => {
             },
           });
         }
-        // Thêm item vào cột đích và cập nhật lại UI
       } catch (error) {
-        // Khôi phục lại trạng thái cũ trong UI nếu gặp lỗi
         sourceItems.splice(source.index, 0, movedItem);
         setColumns({
           ...columns,
@@ -280,6 +275,18 @@ const BoardPage = () => {
       Message.error("An error occurred while adding the task.");
     }
   };
+  //add column
+  const [isAddColumn, SetIsAddColumn] = useState(false);
+  const handleCancelAddColumn = () => {
+    SetIsAddColumn(false);
+    formAddColumn.resetFields(); // Reset the form fields
+  };
+
+  const onChangeFileRequired = (checked) => {};
+  const handleAddColumn = (values) => {
+    console.log("data", values); // Kiểm tra dữ liệu đầu vào từ Form
+  };
+  const [formAddColumn] = Form.useForm();
   return (
     <div className="board-container">
       <div className="board-header">
@@ -348,18 +355,35 @@ const BoardPage = () => {
           )}
         </div>
       </div>
-      <DragDropContext onDragEnd={isExpired ? undefined : onDragEnd}>
-        <div className="board-columns">
-          {Object.entries(columns).map(([columnId, column]) => (
-            <Column
-              key={columnId}
-              columnId={columnId}
-              column={column}
-              fetchAllData={fetchAllData}
-            />
-          ))}
+      <div style={{ display: "flex", alignItems: "flex-start" }}>
+        <DragDropContext onDragEnd={isExpired ? undefined : onDragEnd}>
+          <div className="board-columns">
+            {Object.entries(columns).map(([columnId, column]) => (
+              <Column
+                key={columnId}
+                columnId={columnId}
+                column={column}
+                fetchAllData={fetchAllData}
+              />
+            ))}
+          </div>
+        </DragDropContext>
+        <div style={{ padding: "16px" }}>
+          <Button
+            type="primary"
+            shape="circle"
+            icon={<PlusOutlined />}
+            onClick={() => SetIsAddColumn(true)}
+          />
+          <ModelAddColumn
+            isModalAddColumn={isAddColumn}
+            handleCancelAddColumn={handleCancelAddColumn}
+            formAddColumn={formAddColumn}
+            handleAddColum={handleAddColumn}
+            onChangeFileRequired={onChangeFileRequired}
+          />
         </div>
-      </DragDropContext>
+      </div>
       <ModalAddProject
         isModalVisible={isModalVisible}
         handleCancel={handleCancel}

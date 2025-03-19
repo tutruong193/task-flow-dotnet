@@ -72,6 +72,7 @@ namespace taskflow_server.Controllers
                 CreateDate_At = user.Created_at,
                 Updated_At = user.Updated_at,
                 Role = roles.First(),
+                Avatar = user.Avatar
             };
             return Ok(userVm);
         }
@@ -98,6 +99,7 @@ namespace taskflow_server.Controllers
                         CreateDate_At = u.Created_at,
                         Updated_At = u.Updated_at,
                         Role = roles.First(),
+                        Avatar = u.Avatar
                     });
                 }
             }

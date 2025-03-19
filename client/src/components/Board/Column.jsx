@@ -2,9 +2,10 @@ import React from "react";
 import Item from "./Item"; // Nhập component Item
 import { Droppable } from "react-beautiful-dnd";
 import { Button, Typography } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { FileExclamationOutlined } from "@ant-design/icons";
 const { Text } = Typography;
 const Column = ({ columnId, column, fetchAllData }) => {
+  console.log(column);
   return (
     <Droppable droppableId={columnId}>
       {(provided, snapshot) => (
@@ -13,6 +14,7 @@ const Column = ({ columnId, column, fetchAllData }) => {
             <div className="column-title">
               <Text strong>{column.name}</Text>
               <Text className="column-count">{column.count}</Text>
+              {column?.fileRequired && <FileExclamationOutlined />}
             </div>
           </div>
           <div

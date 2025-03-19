@@ -112,14 +112,93 @@
   },
   {
     "ContainingType": "taskflow_server.Controllers.ProjectsController",
-    "Method": "GetById",
+    "Method": "DeleteProject",
     "RelativePath": "api/Projects/{id}",
-    "HttpMethod": "GET",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "taskflow_server.Controllers.ProjectsController",
+    "Method": "GetById",
+    "RelativePath": "api/Projects/{projectid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "projectid",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "taskflow_server.Controllers.ProjectsController",
+    "Method": "PutProject",
+    "RelativePath": "api/Projects/{projectid}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "taskflow_server.Data.Entities.Project",
+        "IsRequired": true
+      },
+      {
+        "Name": "projectid",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "taskflow_server.Controllers.ProjectsController",
+    "Method": "AddMemberToProject",
+    "RelativePath": "api/Projects/{projectid}/members",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "projectid",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "taskflow_server.Data.Entities.ProjectMember",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "taskflow_server.Controllers.ProjectsController",
+    "Method": "DeleteMemberFromProject",
+    "RelativePath": "api/Projects/{projectid}/members/{userId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "projectid",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "userId",
         "Type": "System.String",
         "IsRequired": true
       }
@@ -160,15 +239,225 @@
   },
   {
     "ContainingType": "taskflow_server.Controllers.TasksController",
-    "Method": "PostTask",
-    "RelativePath": "api/Tasks/{projectId}",
-    "HttpMethod": "POST",
+    "Method": "DeleteTask",
+    "RelativePath": "api/Tasks/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "taskflow_server.Controllers.TasksController",
+    "Method": "PutTask",
+    "RelativePath": "api/Tasks/{taskId}",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "request",
         "Type": "taskflow_server.Data.Entities.TaskModel",
+        "IsRequired": true
+      },
+      {
+        "Name": "taskId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "taskflow_server.Controllers.TasksController",
+    "Method": "AddAssigneeToTask",
+    "RelativePath": "api/Tasks/{taskId}/assignee",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "taskId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "taskflow_server.Data.Entities.TaskAssignee",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "taskflow_server.Controllers.TasksController",
+    "Method": "RemoveAssginFromTask",
+    "RelativePath": "api/Tasks/{taskId}/assignee/{userId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "taskId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "taskflow_server.Controllers.TasksController",
+    "Method": "PostAttachment",
+    "RelativePath": "api/Tasks/{taskId}/attachments",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "taskId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "File",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "taskflow_server.Controllers.TasksController",
+    "Method": "DeleteAttachment",
+    "RelativePath": "api/Tasks/{taskId}/attachments/{attachmentId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "attachmentId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "taskId",
+        "Type": "",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "taskflow_server.Controllers.TasksController",
+    "Method": "PostComment",
+    "RelativePath": "api/Tasks/{taskId}/comments",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "taskId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "taskflow_server.Data.Entities.Comment",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "taskflow_server.Controllers.TasksController",
+    "Method": "PatchComment",
+    "RelativePath": "api/Tasks/{taskId}/comments/{commentId}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "taskId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "taskflow_server.Data.Entities.Comment",
+        "IsRequired": true
+      },
+      {
+        "Name": "commentId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "taskflow_server.Controllers.TasksController",
+    "Method": "DeleteComment",
+    "RelativePath": "api/Tasks/{taskId}/comments/{commentId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "taskId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "commentId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "taskflow_server.Controllers.TasksController",
+    "Method": "ChangeStatusTask",
+    "RelativePath": "api/Tasks/{taskId}/status/{columnId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "taskId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "columnId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "taskflow_server.Controllers.TasksController",
+    "Method": "PostTask",
+    "RelativePath": "api/Tasks/project/{projectId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "taskflow_server.ViewModel.TaskPostRequest",
         "IsRequired": true
       },
       {

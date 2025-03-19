@@ -85,6 +85,14 @@
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
+      "Id": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\4094a56c-b42e-4c88-9ae3-1a0f3802e4a3~anh the.jpg",
+      "PackagePath": "staticwebassets\\user-attachments\\4094a56c-b42e-4c88-9ae3-1a0f3802e4a3~anh the.jpg"
+    },
+    {
+      "Id": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\7dd9966e-7492-47d7-864d-993385207620.jpg",
+      "PackagePath": "staticwebassets\\user-attachments\\7dd9966e-7492-47d7-864d-993385207620.jpg"
+    },
+    {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.taskflow-server.props",
       "PackagePath": "build\\taskflow-server.props"
     },

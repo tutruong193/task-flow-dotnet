@@ -14,6 +14,7 @@
 
         public DateTime Dob { get; set; }
         public string Role { get; set; }
+        public string Avatar { get; set; }
         public DateTime CreateDate_At { get; set; }
         public DateTime? Updated_At { get; set; }
     }

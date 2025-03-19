@@ -21,7 +21,7 @@ const DashboardPage = () => {
           ProjectService.getAllProject(),
           UserService.getAllUser(),
         ]);
-        if (projectRes?.status === "200") {
+        if (projectRes?.status == 200) {
           const projects = projectRes.data;
           const stats = {
             pending: 0,
@@ -39,7 +39,7 @@ const DashboardPage = () => {
         } else {
           console.error("Error fetching project details");
         }
-        if (userRes?.status == "200") {
+        if (userRes?.status == 200) {
           const userCounts = {
             Manager: 0,
             Member: 0,

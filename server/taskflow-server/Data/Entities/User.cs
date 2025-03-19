@@ -21,7 +21,7 @@ namespace taskflow_server.Data.Entities
         }
         [Required]
         public string Name { get; set; }
-
+        public string? Avatar { get; set; }
         public DateTime Dob { get; set; }
         public DateTime Created_at { get; set; }
         public DateTime? Updated_at { get; set; }

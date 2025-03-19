@@ -12,6 +12,6 @@ namespace taskflow_server.Data.Entities
         public Guid TaskId { get; set; }
 
         [ForeignKey("User")]
-        public Guid UserId { get; set; }
+        public string? UserId { get; set; }
     }
 }

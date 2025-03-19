@@ -14,12 +14,11 @@ namespace taskflow_server.Data.Entities
 
         public string? Description { get; set; }
 
-        public string? Status { get; set; } // pending, in progress, completed
-
         [ForeignKey("Project")]
         public Guid ProjectId { get; set; }
         [ForeignKey("Column")]
         public Guid ColumnId { get; set; }
+        public DateTime Enddate_at { get; set; }
         public DateTime Created_at { get  ; set  ; } = DateTime.UtcNow;
         public DateTime? Updated_at { get; set; } = DateTime.UtcNow;
     }

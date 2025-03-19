@@ -278,8 +278,8 @@ const ProjectCardComponent = ({ projectId, projectQuerry, projectData }) => {
       >
         <div>
           <div>{projectData?.description || " "}</div>
-          <div>Start Date: {renderDate(projectData?.startDate)}</div>
-          <div>End Date: {renderDate(projectData?.endDate)}</div>
+          <div>Start Date: {renderDate(projectData?.startdate_at)}</div>
+          <div>End Date: {renderDate(projectData?.enddate_At)}</div>
         </div>
       </Card>
       <Modal

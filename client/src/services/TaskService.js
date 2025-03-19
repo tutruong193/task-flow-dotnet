@@ -85,12 +85,11 @@ export const updateStatusSubtask = async (
   );
   return res.data;
 };
-export const updateStatusTask = async (taskId, userId, status) => {
+export const updateStatusTask = async (taskId, columnId) => {
   const res = await axios.put(
-    `${process.env.REACT_APP_API_URL}/api/task/update_status/task/${taskId}/user/${userId}`,
-    { status }
+    `${process.env.REACT_APP_API_URL}/api/tasks/${taskId}/status/${columnId}`
   );
-  return res.data;
+  return res;
 };
 export const assignedTask = async (taskId, userId) => {
   const res = await axios.put(

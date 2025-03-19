@@ -6,6 +6,7 @@ export const loginUser = async (data) => {
     `${process.env.REACT_APP_API_URL}/api/users/login`,
     data
   );
+  console.log(res);
   return res.data;
 };
 export const logoutUser = async () => {

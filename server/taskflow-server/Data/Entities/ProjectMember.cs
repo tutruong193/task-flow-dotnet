@@ -1,19 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
-namespace taskflow_server.Data.Entities
-{
-    public class ProjectMember
+    namespace taskflow_server.Data.Entities
     {
-        [Key]
-        public Guid Id { get; set; }
+        public class ProjectMember
+        {
+            [Key]
+            public Guid Id { get; set; }
 
-        [ForeignKey("Project")]
-        public Guid ProjectId { get; set; }
+            [ForeignKey("Project")]
+            public Guid ProjectId { get; set; }
 
-        [ForeignKey("User")]
-        public Guid UserId { get; set; }
+            [ForeignKey("User")]
+            public string? UserId { get; set; } // Sử dụng string vì User kế thừa IdentityUser
 
-        public string? Role { get; set; }
+            public string? Role { get; set; }
+        }
     }
-}

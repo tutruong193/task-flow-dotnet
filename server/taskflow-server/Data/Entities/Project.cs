@@ -14,9 +14,9 @@ namespace taskflow_server.Data.Entities
         public string? Description { get; set; }
 
         public string? Status { get; set; } // pending, in progress, completed
+        public DateTime Startdate_at { get; set; }
+        public DateTime Enddate_At { get; set; }
         public DateTime Created_at { get  ; set  ; }
         public DateTime? Updated_at { get  ; set  ; }
-
-        public ICollection<ProjectMember>? Members { get; set; }
     }
 }
