@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "I7dJDvJUgHi5cz58WTxTRuecxSxNsWllkMdOshDHlmk=",
+  "Hash": "DBoaavSIJLEIqMqKVQi7pWs4eM1zBXCxwqUaoxObMGY=",
   "Source": "taskflow-server",
   "BasePath": "_content/taskflow-server",
   "Mode": "Default",
@@ -1718,12 +1718,12 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
     },
     {
-      "Identity": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\4094a56c-b42e-4c88-9ae3-1a0f3802e4a3~anh the.jpg",
+      "Identity": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\06b10963-6534-49e6-8748-6ebb9297c081-anh the.jpg",
       "SourceId": "taskflow-server",
       "SourceType": "Discovered",
       "ContentRoot": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\",
       "BasePath": "_content/taskflow-server",
-      "RelativePath": "user-attachments/4094a56c-b42e-4c88-9ae3-1a0f3802e4a3~anh the#[.{fingerprint}]?.jpg",
+      "RelativePath": "user-attachments/06b10963-6534-49e6-8748-6ebb9297c081-anh the#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1736,15 +1736,15 @@
       "Integrity": "t2T5IvOD5QDLr8kGoJCdZqaCEv+uiINkyooEfGGN8z8=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\user-attachments\\4094a56c-b42e-4c88-9ae3-1a0f3802e4a3~anh the.jpg"
+      "OriginalItemSpec": "wwwroot\\user-attachments\\06b10963-6534-49e6-8748-6ebb9297c081-anh the.jpg"
     },
     {
-      "Identity": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\7dd9966e-7492-47d7-864d-993385207620.jpg",
+      "Identity": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\379549a3-a415-4e83-a8b0-ace7159273da-anh the.jpg",
       "SourceId": "taskflow-server",
       "SourceType": "Discovered",
       "ContentRoot": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\",
       "BasePath": "_content/taskflow-server",
-      "RelativePath": "user-attachments/7dd9966e-7492-47d7-864d-993385207620#[.{fingerprint}]?.jpg",
+      "RelativePath": "user-attachments/379549a3-a415-4e83-a8b0-ace7159273da-anh the#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1757,7 +1757,112 @@
       "Integrity": "t2T5IvOD5QDLr8kGoJCdZqaCEv+uiINkyooEfGGN8z8=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\user-attachments\\7dd9966e-7492-47d7-864d-993385207620.jpg"
+      "OriginalItemSpec": "wwwroot\\user-attachments\\379549a3-a415-4e83-a8b0-ace7159273da-anh the.jpg"
+    },
+    {
+      "Identity": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\b5894c7a-6af0-46d2-9a81-367ef3068250-anh the.jpg",
+      "SourceId": "taskflow-server",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\",
+      "BasePath": "_content/taskflow-server",
+      "RelativePath": "user-attachments/b5894c7a-6af0-46d2-9a81-367ef3068250-anh the#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "x6lkzgfrez",
+      "Integrity": "t2T5IvOD5QDLr8kGoJCdZqaCEv+uiINkyooEfGGN8z8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\user-attachments\\b5894c7a-6af0-46d2-9a81-367ef3068250-anh the.jpg"
+    },
+    {
+      "Identity": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\bf94b521-db31-49c2-bfc4-6cb855b83883-căn cước.pdf",
+      "SourceId": "taskflow-server",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\",
+      "BasePath": "_content/taskflow-server",
+      "RelativePath": "user-attachments/bf94b521-db31-49c2-bfc4-6cb855b83883-căn cước#[.{fingerprint}]?.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "z0htlquz25",
+      "Integrity": "jYevB+13SwfkWw6FNF/Rzrv/6avThQsCBAIDKCtvFKY=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\user-attachments\\bf94b521-db31-49c2-bfc4-6cb855b83883-căn cước.pdf"
+    },
+    {
+      "Identity": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\ccf533ba-2b9b-4fc7-80b0-3b058bfee53b-căn cước.pdf",
+      "SourceId": "taskflow-server",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\",
+      "BasePath": "_content/taskflow-server",
+      "RelativePath": "user-attachments/ccf533ba-2b9b-4fc7-80b0-3b058bfee53b-căn cước#[.{fingerprint}]?.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "z0htlquz25",
+      "Integrity": "jYevB+13SwfkWw6FNF/Rzrv/6avThQsCBAIDKCtvFKY=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\user-attachments\\ccf533ba-2b9b-4fc7-80b0-3b058bfee53b-căn cước.pdf"
+    },
+    {
+      "Identity": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\f4de38a4-e3cd-4001-84f2-7edd7783aeb2-anh the.jpg",
+      "SourceId": "taskflow-server",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\",
+      "BasePath": "_content/taskflow-server",
+      "RelativePath": "user-attachments/f4de38a4-e3cd-4001-84f2-7edd7783aeb2-anh the#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "x6lkzgfrez",
+      "Integrity": "t2T5IvOD5QDLr8kGoJCdZqaCEv+uiINkyooEfGGN8z8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\user-attachments\\f4de38a4-e3cd-4001-84f2-7edd7783aeb2-anh the.jpg"
+    },
+    {
+      "Identity": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\fd6baaa5-e84c-4559-ad65-9b984aa30fc2-anh the.jpg",
+      "SourceId": "taskflow-server",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\",
+      "BasePath": "_content/taskflow-server",
+      "RelativePath": "user-attachments/fd6baaa5-e84c-4559-ad65-9b984aa30fc2-anh the#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "x6lkzgfrez",
+      "Integrity": "t2T5IvOD5QDLr8kGoJCdZqaCEv+uiINkyooEfGGN8z8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\user-attachments\\fd6baaa5-e84c-4559-ad65-9b984aa30fc2-anh the.jpg"
     }
   ],
   "Endpoints": [
@@ -5704,8 +5809,8 @@
       ]
     },
     {
-      "Route": "user-attachments/4094a56c-b42e-4c88-9ae3-1a0f3802e4a3~anh the.jpg",
-      "AssetFile": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\4094a56c-b42e-4c88-9ae3-1a0f3802e4a3~anh the.jpg",
+      "Route": "user-attachments/06b10963-6534-49e6-8748-6ebb9297c081-anh the.jpg",
+      "AssetFile": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\06b10963-6534-49e6-8748-6ebb9297c081-anh the.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -5726,7 +5831,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 19 Mar 2025 04:38:54 GMT"
+          "Value": "Fri, 21 Mar 2025 08:45:56 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5741,8 +5846,8 @@
       ]
     },
     {
-      "Route": "user-attachments/4094a56c-b42e-4c88-9ae3-1a0f3802e4a3~anh the.x6lkzgfrez.jpg",
-      "AssetFile": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\4094a56c-b42e-4c88-9ae3-1a0f3802e4a3~anh the.jpg",
+      "Route": "user-attachments/06b10963-6534-49e6-8748-6ebb9297c081-anh the.x6lkzgfrez.jpg",
+      "AssetFile": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\06b10963-6534-49e6-8748-6ebb9297c081-anh the.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -5763,7 +5868,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 19 Mar 2025 04:38:54 GMT"
+          "Value": "Fri, 21 Mar 2025 08:45:56 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5777,7 +5882,7 @@
         },
         {
           "Name": "label",
-          "Value": "user-attachments/4094a56c-b42e-4c88-9ae3-1a0f3802e4a3~anh the.jpg"
+          "Value": "user-attachments/06b10963-6534-49e6-8748-6ebb9297c081-anh the.jpg"
         },
         {
           "Name": "integrity",
@@ -5786,8 +5891,8 @@
       ]
     },
     {
-      "Route": "user-attachments/7dd9966e-7492-47d7-864d-993385207620.jpg",
-      "AssetFile": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\7dd9966e-7492-47d7-864d-993385207620.jpg",
+      "Route": "user-attachments/379549a3-a415-4e83-a8b0-ace7159273da-anh the.jpg",
+      "AssetFile": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\379549a3-a415-4e83-a8b0-ace7159273da-anh the.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -5808,7 +5913,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 19 Mar 2025 04:33:13 GMT"
+          "Value": "Fri, 21 Mar 2025 08:22:47 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5823,8 +5928,8 @@
       ]
     },
     {
-      "Route": "user-attachments/7dd9966e-7492-47d7-864d-993385207620.x6lkzgfrez.jpg",
-      "AssetFile": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\7dd9966e-7492-47d7-864d-993385207620.jpg",
+      "Route": "user-attachments/379549a3-a415-4e83-a8b0-ace7159273da-anh the.x6lkzgfrez.jpg",
+      "AssetFile": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\379549a3-a415-4e83-a8b0-ace7159273da-anh the.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -5845,7 +5950,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 19 Mar 2025 04:33:13 GMT"
+          "Value": "Fri, 21 Mar 2025 08:22:47 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5859,7 +5964,417 @@
         },
         {
           "Name": "label",
-          "Value": "user-attachments/7dd9966e-7492-47d7-864d-993385207620.jpg"
+          "Value": "user-attachments/379549a3-a415-4e83-a8b0-ace7159273da-anh the.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-t2T5IvOD5QDLr8kGoJCdZqaCEv+uiINkyooEfGGN8z8="
+        }
+      ]
+    },
+    {
+      "Route": "user-attachments/b5894c7a-6af0-46d2-9a81-367ef3068250-anh the.jpg",
+      "AssetFile": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\b5894c7a-6af0-46d2-9a81-367ef3068250-anh the.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "91130"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"t2T5IvOD5QDLr8kGoJCdZqaCEv+uiINkyooEfGGN8z8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 21 Mar 2025 08:29:38 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-t2T5IvOD5QDLr8kGoJCdZqaCEv+uiINkyooEfGGN8z8="
+        }
+      ]
+    },
+    {
+      "Route": "user-attachments/b5894c7a-6af0-46d2-9a81-367ef3068250-anh the.x6lkzgfrez.jpg",
+      "AssetFile": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\b5894c7a-6af0-46d2-9a81-367ef3068250-anh the.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "91130"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"t2T5IvOD5QDLr8kGoJCdZqaCEv+uiINkyooEfGGN8z8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 21 Mar 2025 08:29:38 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "x6lkzgfrez"
+        },
+        {
+          "Name": "label",
+          "Value": "user-attachments/b5894c7a-6af0-46d2-9a81-367ef3068250-anh the.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-t2T5IvOD5QDLr8kGoJCdZqaCEv+uiINkyooEfGGN8z8="
+        }
+      ]
+    },
+    {
+      "Route": "user-attachments/bf94b521-db31-49c2-bfc4-6cb855b83883-căn cước.pdf",
+      "AssetFile": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\bf94b521-db31-49c2-bfc4-6cb855b83883-căn cước.pdf",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "125265"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/pdf"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"jYevB+13SwfkWw6FNF/Rzrv/6avThQsCBAIDKCtvFKY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 21 Mar 2025 09:20:58 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-jYevB+13SwfkWw6FNF/Rzrv/6avThQsCBAIDKCtvFKY="
+        }
+      ]
+    },
+    {
+      "Route": "user-attachments/bf94b521-db31-49c2-bfc4-6cb855b83883-căn cước.z0htlquz25.pdf",
+      "AssetFile": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\bf94b521-db31-49c2-bfc4-6cb855b83883-căn cước.pdf",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "125265"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/pdf"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"jYevB+13SwfkWw6FNF/Rzrv/6avThQsCBAIDKCtvFKY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 21 Mar 2025 09:20:58 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "z0htlquz25"
+        },
+        {
+          "Name": "label",
+          "Value": "user-attachments/bf94b521-db31-49c2-bfc4-6cb855b83883-căn cước.pdf"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-jYevB+13SwfkWw6FNF/Rzrv/6avThQsCBAIDKCtvFKY="
+        }
+      ]
+    },
+    {
+      "Route": "user-attachments/ccf533ba-2b9b-4fc7-80b0-3b058bfee53b-căn cước.pdf",
+      "AssetFile": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\ccf533ba-2b9b-4fc7-80b0-3b058bfee53b-căn cước.pdf",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "125265"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/pdf"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"jYevB+13SwfkWw6FNF/Rzrv/6avThQsCBAIDKCtvFKY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 21 Mar 2025 08:22:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-jYevB+13SwfkWw6FNF/Rzrv/6avThQsCBAIDKCtvFKY="
+        }
+      ]
+    },
+    {
+      "Route": "user-attachments/ccf533ba-2b9b-4fc7-80b0-3b058bfee53b-căn cước.z0htlquz25.pdf",
+      "AssetFile": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\ccf533ba-2b9b-4fc7-80b0-3b058bfee53b-căn cước.pdf",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "125265"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/pdf"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"jYevB+13SwfkWw6FNF/Rzrv/6avThQsCBAIDKCtvFKY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 21 Mar 2025 08:22:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "z0htlquz25"
+        },
+        {
+          "Name": "label",
+          "Value": "user-attachments/ccf533ba-2b9b-4fc7-80b0-3b058bfee53b-căn cước.pdf"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-jYevB+13SwfkWw6FNF/Rzrv/6avThQsCBAIDKCtvFKY="
+        }
+      ]
+    },
+    {
+      "Route": "user-attachments/f4de38a4-e3cd-4001-84f2-7edd7783aeb2-anh the.jpg",
+      "AssetFile": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\f4de38a4-e3cd-4001-84f2-7edd7783aeb2-anh the.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "91130"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"t2T5IvOD5QDLr8kGoJCdZqaCEv+uiINkyooEfGGN8z8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 21 Mar 2025 09:29:08 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-t2T5IvOD5QDLr8kGoJCdZqaCEv+uiINkyooEfGGN8z8="
+        }
+      ]
+    },
+    {
+      "Route": "user-attachments/f4de38a4-e3cd-4001-84f2-7edd7783aeb2-anh the.x6lkzgfrez.jpg",
+      "AssetFile": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\f4de38a4-e3cd-4001-84f2-7edd7783aeb2-anh the.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "91130"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"t2T5IvOD5QDLr8kGoJCdZqaCEv+uiINkyooEfGGN8z8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 21 Mar 2025 09:29:08 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "x6lkzgfrez"
+        },
+        {
+          "Name": "label",
+          "Value": "user-attachments/f4de38a4-e3cd-4001-84f2-7edd7783aeb2-anh the.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-t2T5IvOD5QDLr8kGoJCdZqaCEv+uiINkyooEfGGN8z8="
+        }
+      ]
+    },
+    {
+      "Route": "user-attachments/fd6baaa5-e84c-4559-ad65-9b984aa30fc2-anh the.jpg",
+      "AssetFile": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\fd6baaa5-e84c-4559-ad65-9b984aa30fc2-anh the.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "91130"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"t2T5IvOD5QDLr8kGoJCdZqaCEv+uiINkyooEfGGN8z8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 21 Mar 2025 08:26:02 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-t2T5IvOD5QDLr8kGoJCdZqaCEv+uiINkyooEfGGN8z8="
+        }
+      ]
+    },
+    {
+      "Route": "user-attachments/fd6baaa5-e84c-4559-ad65-9b984aa30fc2-anh the.x6lkzgfrez.jpg",
+      "AssetFile": "E:\\study\\Hocthem\\.net-api\\task-flow-dotnet\\server\\taskflow-server\\wwwroot\\user-attachments\\fd6baaa5-e84c-4559-ad65-9b984aa30fc2-anh the.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "91130"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"t2T5IvOD5QDLr8kGoJCdZqaCEv+uiINkyooEfGGN8z8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 21 Mar 2025 08:26:02 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "x6lkzgfrez"
+        },
+        {
+          "Name": "label",
+          "Value": "user-attachments/fd6baaa5-e84c-4559-ad65-9b984aa30fc2-anh the.jpg"
         },
         {
           "Name": "integrity",

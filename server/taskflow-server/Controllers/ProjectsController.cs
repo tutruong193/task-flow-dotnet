@@ -74,17 +74,15 @@ namespace taskflow_server.Controllers
             projectColumn.Add(new Column
             {
                 Id = Guid.NewGuid(),
-                Name = "todo",
+                Name = "to do",
                 Position = 1,
-                FileRequired = false,
                 ProjectId = projectId
             });
             projectColumn.Add(new Column
             {
                 Id = Guid.NewGuid(),
-                Name = "progress",
+                Name = "in progress",
                 Position = 2,
-                FileRequired = false,
                 ProjectId = projectId
             });
             projectColumn.Add(new Column
@@ -92,7 +90,6 @@ namespace taskflow_server.Controllers
                 Id = Guid.NewGuid(),
                 Name = "done",
                 Position = 3,
-                FileRequired = false,
                 ProjectId = projectId
             });
             _context.Columns.AddRange(projectColumn);
@@ -102,7 +99,7 @@ namespace taskflow_server.Controllers
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return CreatedAtAction(nameof(GetById), new { id = project.Id }, request);
+                return Ok();
             }
             else
             {

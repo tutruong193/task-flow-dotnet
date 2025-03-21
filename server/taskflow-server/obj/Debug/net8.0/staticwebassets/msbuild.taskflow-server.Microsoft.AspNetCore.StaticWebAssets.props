@@ -378,12 +378,12 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\lib\jquery\LICENSE.txt'))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\user-attachments\4094a56c-b42e-4c88-9ae3-1a0f3802e4a3~anh the.jpg'))">
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\user-attachments\06b10963-6534-49e6-8748-6ebb9297c081-anh the.jpg'))">
       <SourceType>Package</SourceType>
       <SourceId>taskflow-server</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/taskflow-server</BasePath>
-      <RelativePath>user-attachments/4094a56c-b42e-4c88-9ae3-1a0f3802e4a3~anh the.jpg</RelativePath>
+      <RelativePath>user-attachments/06b10963-6534-49e6-8748-6ebb9297c081-anh the.jpg</RelativePath>
       <AssetKind>All</AssetKind>
       <AssetMode>All</AssetMode>
       <AssetRole>Primary</AssetRole>
@@ -394,14 +394,14 @@
       <Integrity>t2T5IvOD5QDLr8kGoJCdZqaCEv+uiINkyooEfGGN8z8=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\user-attachments\4094a56c-b42e-4c88-9ae3-1a0f3802e4a3~anh the.jpg'))</OriginalItemSpec>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\user-attachments\06b10963-6534-49e6-8748-6ebb9297c081-anh the.jpg'))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\user-attachments\7dd9966e-7492-47d7-864d-993385207620.jpg'))">
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\user-attachments\379549a3-a415-4e83-a8b0-ace7159273da-anh the.jpg'))">
       <SourceType>Package</SourceType>
       <SourceId>taskflow-server</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/taskflow-server</BasePath>
-      <RelativePath>user-attachments/7dd9966e-7492-47d7-864d-993385207620.jpg</RelativePath>
+      <RelativePath>user-attachments/379549a3-a415-4e83-a8b0-ace7159273da-anh the.jpg</RelativePath>
       <AssetKind>All</AssetKind>
       <AssetMode>All</AssetMode>
       <AssetRole>Primary</AssetRole>
@@ -412,7 +412,97 @@
       <Integrity>t2T5IvOD5QDLr8kGoJCdZqaCEv+uiINkyooEfGGN8z8=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\user-attachments\7dd9966e-7492-47d7-864d-993385207620.jpg'))</OriginalItemSpec>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\user-attachments\379549a3-a415-4e83-a8b0-ace7159273da-anh the.jpg'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\user-attachments\b5894c7a-6af0-46d2-9a81-367ef3068250-anh the.jpg'))">
+      <SourceType>Package</SourceType>
+      <SourceId>taskflow-server</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/taskflow-server</BasePath>
+      <RelativePath>user-attachments/b5894c7a-6af0-46d2-9a81-367ef3068250-anh the.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>x6lkzgfrez</Fingerprint>
+      <Integrity>t2T5IvOD5QDLr8kGoJCdZqaCEv+uiINkyooEfGGN8z8=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\user-attachments\b5894c7a-6af0-46d2-9a81-367ef3068250-anh the.jpg'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\user-attachments\bf94b521-db31-49c2-bfc4-6cb855b83883-căn cước.pdf'))">
+      <SourceType>Package</SourceType>
+      <SourceId>taskflow-server</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/taskflow-server</BasePath>
+      <RelativePath>user-attachments/bf94b521-db31-49c2-bfc4-6cb855b83883-căn cước.pdf</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>z0htlquz25</Fingerprint>
+      <Integrity>jYevB+13SwfkWw6FNF/Rzrv/6avThQsCBAIDKCtvFKY=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\user-attachments\bf94b521-db31-49c2-bfc4-6cb855b83883-căn cước.pdf'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\user-attachments\ccf533ba-2b9b-4fc7-80b0-3b058bfee53b-căn cước.pdf'))">
+      <SourceType>Package</SourceType>
+      <SourceId>taskflow-server</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/taskflow-server</BasePath>
+      <RelativePath>user-attachments/ccf533ba-2b9b-4fc7-80b0-3b058bfee53b-căn cước.pdf</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>z0htlquz25</Fingerprint>
+      <Integrity>jYevB+13SwfkWw6FNF/Rzrv/6avThQsCBAIDKCtvFKY=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\user-attachments\ccf533ba-2b9b-4fc7-80b0-3b058bfee53b-căn cước.pdf'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\user-attachments\f4de38a4-e3cd-4001-84f2-7edd7783aeb2-anh the.jpg'))">
+      <SourceType>Package</SourceType>
+      <SourceId>taskflow-server</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/taskflow-server</BasePath>
+      <RelativePath>user-attachments/f4de38a4-e3cd-4001-84f2-7edd7783aeb2-anh the.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>x6lkzgfrez</Fingerprint>
+      <Integrity>t2T5IvOD5QDLr8kGoJCdZqaCEv+uiINkyooEfGGN8z8=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\user-attachments\f4de38a4-e3cd-4001-84f2-7edd7783aeb2-anh the.jpg'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\user-attachments\fd6baaa5-e84c-4559-ad65-9b984aa30fc2-anh the.jpg'))">
+      <SourceType>Package</SourceType>
+      <SourceId>taskflow-server</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/taskflow-server</BasePath>
+      <RelativePath>user-attachments/fd6baaa5-e84c-4559-ad65-9b984aa30fc2-anh the.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>x6lkzgfrez</Fingerprint>
+      <Integrity>t2T5IvOD5QDLr8kGoJCdZqaCEv+uiINkyooEfGGN8z8=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\user-attachments\fd6baaa5-e84c-4559-ad65-9b984aa30fc2-anh the.jpg'))</OriginalItemSpec>
     </StaticWebAsset>
   </ItemGroup>
 </Project>

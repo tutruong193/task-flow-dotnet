@@ -10,7 +10,7 @@ namespace taskflow_server.Data.Entities
         public Guid Id { get; set; }
 
         [Required]
-        public string? Title { get; set; }
+        public string? Name { get; set; }
 
         public string? Description { get; set; }
 
@@ -18,7 +18,10 @@ namespace taskflow_server.Data.Entities
         public Guid ProjectId { get; set; }
         [ForeignKey("Column")]
         public Guid ColumnId { get; set; }
-        public DateTime Enddate_at { get; set; }
+        
+        public string Priority { get; set; }
+        [ForeignKey("User")]
+        public string? ReporterId { get; set; }
         public DateTime Created_at { get  ; set  ; } = DateTime.UtcNow;
         public DateTime? Updated_at { get; set; } = DateTime.UtcNow;
     }

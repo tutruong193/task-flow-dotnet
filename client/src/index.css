@@ -818,6 +818,74 @@ p {
   width: 100%;
 }
 
+.attachment-container {
+  overflow-x: auto;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.attachment-container .ant-card-body {
+  padding: 0
+}
+
+.attachment-image {
+  height: 200px !important;
+  /* Chiều cao cố định */
+  width: auto !important;
+  /* Chiều rộng tự động theo ảnh */
+  object-fit: contain;
+  /* Giữ nguyên tỉ lệ ảnh */
+}
+
+
+.file-preview {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center;
+  flex-direction: column;
+  height: 200px;
+  width: 150px !important;
+  background: #f5f5f5;
+  position: relative;
+  text-align: center;
+}
+
+.file-preview svg {
+  font-size: 80px;
+  display: block;
+  width: 80px;
+  /* Đảm bảo icon không bị lệch */
+  height: 80px;
+  /* Kích thước icon gần bằng ảnh */
+}
+
+.file-mask {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 16px;
+  border-radius: 4px;
+  transition: all 0.3s;
+  text-decoration: none;
+
+  /* Căn giữa */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  background: rgba(57, 56, 56, 0.6);
+  opacity: 0;
+}
+
+.file-preview:hover .file-mask {
+  opacity: 1;
+}
+
 /* Responsive Breakpoints */
 @media screen and (min-width: 768px) {
   .task-modal .modal-title {
@@ -990,6 +1058,7 @@ p {
 
 /* Print Styles */
 @media print {
+
   .task-modal .modal-actions,
   .task-modal .action-buttons,
   .comment-actions {

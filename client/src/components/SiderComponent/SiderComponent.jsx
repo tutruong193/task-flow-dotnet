@@ -23,7 +23,6 @@ const SiderComponent = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const infoUser = jwtTranslate(cookiesAccessToken.access_token);
-  const isManager = infoUser?.role?.toLowerCase() == "manager";
   const isAdmin = infoUser?.role?.toLowerCase() == "admin";
   const location = useLocation();
   // const defaultSelectedKey = isAdmin ? "admin_dashboard" : "user_project_board";
@@ -41,8 +40,7 @@ const SiderComponent = () => {
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
-  const items = isAdmin
-    ? [
+  const items =  [
         {
           key: "dashboard",
           icon: <DashboardOutlined />,
@@ -64,25 +62,7 @@ const SiderComponent = () => {
           label: "Activity",
         },
       ]
-    : [
-        {
-          icon: <ProjectOutlined />,
-          label: isManager ? "Manage Project" : "Project",
-          type: "group",
-          children: [
-            {
-              key: "board",
-              label: "Board",
-              icon: <TableOutlined />,
-            },
-            {
-              key: "list",
-              label: "List",
-              icon: <UnorderedListOutlined />,
-            },
-          ],
-        },
-      ];
+    
 
   // Handle menu item click
   const handleMenuClick = (e) => {
@@ -101,9 +81,6 @@ const SiderComponent = () => {
         break;
       case "board":
         navigate("/system/user/project/board");
-        break;
-      case "list":
-        navigate("/system/user/project/list");
         break;
       default:
         break;

@@ -4,15 +4,14 @@ import { Droppable } from "react-beautiful-dnd";
 import { Button, Typography } from "antd";
 import { FileExclamationOutlined } from "@ant-design/icons";
 const { Text } = Typography;
-const Column = ({ columnId, column, fetchAllData }) => {
-  console.log(column);
+const Column = ({ columnId, column, fetchAllData, options }) => {
   return (
     <Droppable droppableId={columnId}>
       {(provided, snapshot) => (
         <div className="column">
           <div className="column-header">
             <div className="column-title">
-              <Text strong>{column.name}</Text>
+              <Text strong>{column.name.toUpperCase()}</Text>
               <Text className="column-count">{column.count}</Text>
               {column?.fileRequired && <FileExclamationOutlined />}
             </div>
@@ -31,6 +30,7 @@ const Column = ({ columnId, column, fetchAllData }) => {
                 item={item}
                 index={index}
                 fetchAllData={fetchAllData}
+                options={options}
               />
             ))}
             {provided.placeholder}

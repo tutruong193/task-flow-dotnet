@@ -7,6 +7,7 @@ using taskflow_server.Data.Entities;
 using taskflow_server.ViewModel;
 using System.Net.Http.Headers;
 using taskflow_server.Services;
+using Microsoft.IdentityModel.Tokens;
 namespace taskflow_server.Controllers
 {
     public class TasksController : BaseController
@@ -19,40 +20,64 @@ namespace taskflow_server.Controllers
             _storageService = storageService;
         }
         [HttpPost("project/{projectId}")]
-        public async Task<IActionResult> PostTask([FromBody] TaskPostRequest request, string projectId)
+        public async Task<IActionResult> PostTask([FromForm] TaskPostRequest request, string projectId)
         {
             Guid projectGuid;
             if (!Guid.TryParse(projectId, out projectGuid))
             {
                 return BadRequest("Project không hợp lệ.");
             }
-            string status = "todo";
+
             var task = new TaskModel
             {
                 Id = Guid.NewGuid(),
-                Title = request.Title,
+                Name = request.Name,
                 Description = request.Description,
-                Enddate_at = request.Enddate_At,
                 ProjectId = projectGuid,
+                Priority = request.Priority,
+                ReporterId = request.ReporterId,
+                Created_at = DateTime.UtcNow,
+                Updated_at = DateTime.UtcNow
             };
+
             task.ColumnId = await _context.Columns
-                .Where(c => c.ProjectId == projectGuid && c.Name == "todo")
+                .Where(c => c.ProjectId == projectGuid && c.Name == "to do")
                 .Select(c => (Guid?)c.Id)
                 .FirstOrDefaultAsync() ?? Guid.Empty;
-            _context.Tasks.Add(task);
-            if (task.ColumnId == null)
+
+            if (task.ColumnId == Guid.Empty)
             {
                 return BadRequest("Không tìm thấy ColumnId cho Project.");
             }
-            var result = await _context.SaveChangesAsync();
-            if (result > 0)
+
+            _context.Tasks.Add(task);
+
+            if (!string.IsNullOrEmpty(request.Assignee))
             {
-                return CreatedAtAction(nameof(GetById), new { id = task.Id }, request);
+                var assignee = new TaskAssignee
+                {
+                    Id = Guid.NewGuid(),
+                    TaskId = task.Id,
+                    UserId = request.Assignee
+                };
+                _context.TaskAssignees.Add(assignee);
             }
-            else
+            await _context.SaveChangesAsync();
+            if (request.Attachment != null && request.Attachment.Count > 0)
             {
-                return BadRequest();
+                foreach (var file in request.Attachment)
+                {
+                    if (file != null)
+                    {
+                        var attachmentEntity = await SaveFile(task.Id.ToString(), file);
+                        _context.Attachments.Add(attachmentEntity);
+                    }
+                }
+                await _context.SaveChangesAsync();
             }
+
+            await _context.SaveChangesAsync();
+            return Ok();
         }
 
         [HttpGet("{id}")]
@@ -65,14 +90,18 @@ namespace taskflow_server.Controllers
             var task = await _context.Tasks.FirstOrDefaultAsync(t => t.Id == taskId);
             if (task == null)
                 return NotFound();
-
+            var assignee = await _context.TaskAssignees.FirstOrDefaultAsync(c => c.TaskId == Guid.Parse(id));
             var taskReturn = new TaskVm()
             {
                 Id = task.Id,
-                Title = task.Title,
+                Name = task.Name,
+                Priority = task.Priority,
                 Description = task.Description,
+                Assignee = assignee,
                 Created_at = task.Created_at,
-                Updated_at = task.Updated_at
+                Updated_at = task.Updated_at,
+                ReporterId = task.ReporterId
+               
             };
             return Ok(taskReturn);
         }
@@ -83,10 +112,24 @@ namespace taskflow_server.Controllers
             {
                 return BadRequest("Id hoặc ProjectId không hợp lệ.");
             }
-            var task = await _context.Tasks.Where(c => c.ProjectId == projectGuid).OrderBy(c => c.Created_at).ToListAsync(); ;
-            if (task == null)
+            var tasks = await _context.Tasks
+                .Where(t => t.ProjectId == projectGuid)
+                .OrderBy(t => t.Created_at)
+                .Select(t => new
+                {
+                    t.Id,
+                    t.Name,
+                    t.Description,
+                    t.Created_at,
+                    t.Priority,
+                    t.ColumnId,
+                    t.ProjectId,
+                    Assignee = _context.TaskAssignees.Where(ta => ta.TaskId == t.Id).FirstOrDefault()
+                })
+                .ToListAsync();
+            if (tasks == null)
                 return NotFound();
-            return Ok(task);
+            return Ok(tasks);
         }
         [HttpPut("{taskId}")]
         public async Task<IActionResult> PutTask([FromBody] TaskModel request, string taskId)
@@ -95,7 +138,7 @@ namespace taskflow_server.Controllers
             if (task == null)
                 return NotFound();
 
-            task.Title = request.Title;
+            task.Name = request.Name;
             task.Description = request.Description;
             task.Updated_at = DateTime.Now;
 
@@ -108,7 +151,7 @@ namespace taskflow_server.Controllers
             var task = await _context.Tasks.FindAsync(Guid.Parse(taskId));
             if (task == null)
                 return NotFound();
-
+            var column = await _context.Columns.FindAsync(task.ColumnId);
             task.ColumnId = Guid.Parse(columnId);
             task.Updated_at = DateTime.Now;
 
@@ -128,25 +171,15 @@ namespace taskflow_server.Controllers
             {
                 return NotFound();
             }
-
             _context.Tasks.Remove(task);
             await _context.SaveChangesAsync();
 
-            var taskReturn = new TaskVm()
-            {
-                Id = task.Id,
-                Title = task.Title,
-                Description = task.Description,
-                Created_at = task.Created_at,
-                Updated_at = task.Updated_at
-            };
-
-            return Ok(taskReturn);
+            return Ok();
         }
 
         #region Assignee
-        [HttpPost("{taskId}/assignee")]
-        public async Task<IActionResult> AddAssigneeToTask(string taskId, [FromBody] TaskAssignee request)
+        [HttpPost("{taskId}/assignee/{userId}")]
+        public async Task<IActionResult> AddAssigneeToTask(string taskId, string userId)
         {
             if (!Guid.TryParse(taskId, out Guid parsedTaskId))
             {
@@ -159,7 +192,7 @@ namespace taskflow_server.Controllers
                 return NotFound("Task is not exsisting");
             }
             var existingAssignee = await _context.TaskAssignees
-                .FirstOrDefaultAsync(ta => ta.TaskId == parsedTaskId && ta.UserId == request.UserId);
+                .FirstOrDefaultAsync(ta => ta.TaskId == parsedTaskId && ta.UserId == userId);
 
             if (existingAssignee != null)
             {
@@ -170,7 +203,7 @@ namespace taskflow_server.Controllers
             {
                 Id = Guid.NewGuid(),
                 TaskId = parsedTaskId,
-                UserId = request.UserId,
+                UserId = userId,
             };
 
             _context.TaskAssignees.Add(newAssignee);
@@ -206,9 +239,23 @@ namespace taskflow_server.Controllers
             return Ok("Delete sucessfully");
         }
         #endregion
-        #region Comment
+        #region 
+        [HttpGet("{taskId}/comments")]
+        public async Task<IActionResult> GetCommentByTaskId(string taskId)
+        {
+            if (!Guid.TryParse(taskId, out Guid parsedTaskId))
+            {
+                return BadRequest("TaskId không hợp lệ.");
+            }
+
+            var comments = await _context.Comments
+                .Where(c => c.TaskId == parsedTaskId)
+                .OrderBy(c => c.Created_at)
+                .ToListAsync();
+            return Ok(comments);
+        }
         [HttpPost("{taskId}/comments")]
-        public async Task<IActionResult> PostComment(string taskId, [FromBody] Comment request)
+        public async Task<IActionResult> PostComment(string taskId, [FromBody] CommentPostRequest request)
         {
             if (!Guid.TryParse(taskId, out Guid parsedTaskId))
             {
@@ -271,7 +318,7 @@ namespace taskflow_server.Controllers
         [HttpDelete("{taskId}/comments/{commentId}")]
         public async Task<IActionResult> DeleteComment(string taskId, string commentId)
         {
-            if (!Guid.TryParse(taskId, out Guid parsedTaskId) || !Guid.TryParse(commentId, out Guid parseCommentId))
+            if (!Guid.TryParse(taskId, out Guid parsedTaskId) || !Guid.TryParse(commentId, out Guid parsedCommentId))
             {
                 return BadRequest("TaskId or CommentId are not valid.");
             }
@@ -279,22 +326,111 @@ namespace taskflow_server.Controllers
             var task = await _context.Tasks.FindAsync(parsedTaskId);
             if (task == null)
             {
-                return NotFound("Task is not exsisting");
+                return NotFound("Task does not exist.");
             }
-            var comment = await _context.Comments.FindAsync(parseCommentId);
+
+            var comment = await _context.Comments.FirstOrDefaultAsync(c => c.Id == parsedCommentId);
+
             if (comment == null || comment.TaskId != parsedTaskId)
             {
-                return NotFound("Bình luận không tồn tại hoặc không thuộc task này.");
+                return NotFound("Comment does not exist or does not belong to this task.");
             }
-            _context.Comments.Remove(comment);
-            await _context.SaveChangesAsync();
 
-            return Ok("Comment deleted successfully");
+            // Kiểm tra comment có phải là comment gốc hay không
+            bool isRootComment = comment.ReplyId == null;
+
+            if (isRootComment)
+            {
+                // Nếu là comment gốc, tìm tất cả reply của nó
+                var replyComments = await _context.Comments
+                    .Where(c => c.ReplyId == parsedCommentId)
+                    .ToListAsync();
+
+                if (replyComments.Any())
+                {
+                    _context.Comments.RemoveRange(replyComments);
+                }
+            }
+
+            // Xóa comment chính
+            _context.Comments.Remove(comment);
+
+            await _context.SaveChangesAsync();
+            return Ok("Comment deleted successfully.");
         }
+
+
         #endregion
         #region Attachment
+        [HttpGet("{taskId}/attachments")]
+        public async Task<IActionResult> GetAttachmentByTaskId(string taskId)
+        {
+            try
+            {
+                // Kiểm tra xem taskId có hợp lệ không
+                if (!Guid.TryParse(taskId, out Guid parsedTaskId))
+                {
+                    return BadRequest("TaskId is not valid.");
+                }
 
+                // Kiểm tra xem task có tồn tại không
+                var task = await _context.Tasks.FindAsync(parsedTaskId);
+                if (task == null)
+                {
+                    return NotFound("Task does not exist.");
+                }
 
+                // Lấy danh sách các file đính kèm của task
+                var attachments = await _context.Attachments
+                    .Where(a => a.TaskId == parsedTaskId)
+                    .Select(a => new
+                    {
+                        a.Id,
+                        a.FileName,
+                        a.FilePath,
+                        a.FileSize,
+                        a.FileType,
+                        a.Created_at,
+                    })
+                    .ToListAsync();
+
+                // Trả về danh sách các file đính kèm
+                return Ok(attachments);
+            }
+            catch (Exception ex)
+            {
+                // Log lỗi và trả về thông báo lỗi
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        // Hàm kiểm tra xem file có phải là ảnh không
+        [HttpPost("{taskId}/attachments")]
+        public async Task<IActionResult> PostAttachment(string taskId, [FromForm] AttachmentVm file)
+        {
+            try
+            {
+                if (!Guid.TryParse(taskId, out Guid parsedTaskId))
+                {
+                    return BadRequest("TaskId is not valid.");
+                }
+
+                var task = await _context.Tasks.FindAsync(parsedTaskId);
+                if (task == null)
+                {
+                    return NotFound("Task is not exsisting");
+                }
+                var attachmentEntity = await SaveFile(taskId, file.File);
+                _context.Attachments.Add(attachmentEntity);
+                await _context.SaveChangesAsync();
+                return Ok("Attachment added successfully");
+            }
+            catch (Exception ex)
+            {
+                // Log lỗi
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
         [HttpDelete("{taskId}/attachments/{attachmentId}")]
         public async Task<IActionResult> DeleteAttachment(string attachmentId)
         {
@@ -317,36 +453,34 @@ namespace taskflow_server.Controllers
             }
             return BadRequest();
         }
-        [HttpPost("{taskId}/attachments")]
-        public async Task<IActionResult> PostAttachment(string taskId, [FromForm] AttachmentVm file)
+        [HttpGet("attachments/download/{fileName}")]
+        public IActionResult DownloadFile(string fileName)
         {
-            try
+            if (string.IsNullOrEmpty(fileName))
             {
-                if (!Guid.TryParse(taskId, out Guid parsedTaskId))
-                {
-                    return BadRequest("TaskId is not valid.");
-                }
+                return BadRequest("Tên tệp không hợp lệ.");
+            }
 
-                var task = await _context.Tasks.FindAsync(parsedTaskId);
-                if (task == null)
-                {
-                    return NotFound("Task is not exsisting");
-                }
-                //var column = await _context.Columns.FindAsync(task.ColumnId);
-                ////if (column.FileRequired == false)
-                ////{
-                ////    return BadRequest("This task is not required to attach a file");
-                ////}
-                var attachmentEntity = await SaveFile(taskId, file.File);
-                _context.Attachments.Add(attachmentEntity);
-                await _context.SaveChangesAsync();
-                return Ok("Attachment added successfully");
-            }
-            catch (Exception ex)
+            string filePath = Path.Combine("wwwroot", "user-attachments", fileName);
+
+            if (!System.IO.File.Exists(filePath))
             {
-                // Log lỗi
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return NotFound("Tệp không tồn tại.");
             }
+
+            var contentType = GetContentType(filePath);
+            var fileBytes = System.IO.File.ReadAllBytes(filePath);
+
+            return File(fileBytes, contentType, fileName);
+        }
+        private string GetContentType(string path)
+        {
+            var provider = new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider();
+            if (!provider.TryGetContentType(path, out var contentType))
+            {
+                contentType = "application/octet-stream";
+            }
+            return contentType;
         }
         private async Task<Attachment> SaveFile(string taskId, IFormFile file)
         {
@@ -365,6 +499,28 @@ namespace taskflow_server.Controllers
                 Id = Guid.NewGuid(),
             };
             return attachmentEntity;
+        }
+        [HttpGet("attachments/{fileName}")]
+        public IActionResult GetAttachment(string fileName)
+        {
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "user-attachments", fileName);
+
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound("File không tồn tại.");
+            }
+
+            var fileBytes = System.IO.File.ReadAllBytes(filePath);
+            var contentType = "application/octet-stream";
+
+            // Lấy loại MIME phù hợp nếu có
+            var provider = new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider();
+            if (provider.TryGetContentType(filePath, out string mimeType))
+            {
+                contentType = mimeType;
+            }
+
+            return File(fileBytes, contentType);
         }
         #endregion
     }

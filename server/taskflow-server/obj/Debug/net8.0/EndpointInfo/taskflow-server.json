@@ -10,10 +10,20 @@
     "version": "v1"
   },
   "paths": {
-    "/api/Columns": {
+    "/api/Columns/project/{projectId}": {
       "post": {
         "tags": [
           "Columns"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "requestBody": {
           "content": {
@@ -34,6 +44,26 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Columns"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -61,69 +91,10 @@
             "description": "OK"
           }
         }
-      },
-      "put": {
-        "tags": [
-          "Columns"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Column"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Column"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Column"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Columns"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
       }
     },
-    "/api/Columns/project/{projectId}": {
-      "get": {
+    "/api/Columns/project/{projectId}/batch-update": {
+      "put": {
         "tags": [
           "Columns"
         ],
@@ -137,6 +108,34 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Column"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Column"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Column"
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -378,19 +377,53 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/TaskPostRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TaskPostRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/TaskPostRequest"
+                "type": "object",
+                "properties": {
+                  "Name": {
+                    "type": "string"
+                  },
+                  "Priority": {
+                    "type": "string"
+                  },
+                  "Description": {
+                    "type": "string"
+                  },
+                  "Assignee": {
+                    "type": "string"
+                  },
+                  "ReporterId": {
+                    "type": "string"
+                  },
+                  "Attachment": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              },
+              "encoding": {
+                "Name": {
+                  "style": "form"
+                },
+                "Priority": {
+                  "style": "form"
+                },
+                "Description": {
+                  "style": "form"
+                },
+                "Assignee": {
+                  "style": "form"
+                },
+                "ReporterId": {
+                  "style": "form"
+                },
+                "Attachment": {
+                  "style": "form"
+                }
               }
             }
           }
@@ -535,7 +568,7 @@
         }
       }
     },
-    "/api/Tasks/{taskId}/assignee": {
+    "/api/Tasks/{taskId}/assignee/{userId}": {
       "post": {
         "tags": [
           "Tasks"
@@ -548,35 +581,22 @@
             "schema": {
               "type": "string"
             }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TaskAssignee"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TaskAssignee"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/TaskAssignee"
-              }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "OK"
           }
         }
-      }
-    },
-    "/api/Tasks/{taskId}/assignee/{userId}": {
+      },
       "delete": {
         "tags": [
           "Tasks"
@@ -607,6 +627,26 @@
       }
     },
     "/api/Tasks/{taskId}/comments": {
+      "get": {
+        "tags": [
+          "Tasks"
+        ],
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
       "post": {
         "tags": [
           "Tasks"
@@ -625,17 +665,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Comment"
+                "$ref": "#/components/schemas/CommentPostRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Comment"
+                "$ref": "#/components/schemas/CommentPostRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Comment"
+                "$ref": "#/components/schemas/CommentPostRequest"
               }
             }
           }
@@ -724,20 +764,12 @@
         }
       }
     },
-    "/api/Tasks/{taskId}/attachments/{attachmentId}": {
-      "delete": {
+    "/api/Tasks/{taskId}/attachments": {
+      "get": {
         "tags": [
           "Tasks"
         ],
         "parameters": [
-          {
-            "name": "attachmentId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "taskId",
             "in": "path",
@@ -752,9 +784,7 @@
             "description": "OK"
           }
         }
-      }
-    },
-    "/api/Tasks/{taskId}/attachments": {
+      },
       "post": {
         "tags": [
           "Tasks"
@@ -789,6 +819,80 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Tasks/{taskId}/attachments/{attachmentId}": {
+      "delete": {
+        "tags": [
+          "Tasks"
+        ],
+        "parameters": [
+          {
+            "name": "attachmentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Tasks/attachments/download/{fileName}": {
+      "get": {
+        "tags": [
+          "Tasks"
+        ],
+        "parameters": [
+          {
+            "name": "fileName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Tasks/attachments/{fileName}": {
+      "get": {
+        "tags": [
+          "Tasks"
+        ],
+        "parameters": [
+          {
+            "name": "fileName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -973,9 +1077,6 @@
           "position": {
             "type": "integer",
             "format": "int32"
-          },
-          "fileRequired": {
-            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -1014,6 +1115,25 @@
           "updated_at": {
             "type": "string",
             "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CommentPostRequest": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "nullable": true
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "replyId": {
+            "type": "string",
+            "format": "uuid",
             "nullable": true
           }
         },
@@ -1147,27 +1267,9 @@
         },
         "additionalProperties": false
       },
-      "TaskAssignee": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "taskId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "userId": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "TaskModel": {
         "required": [
-          "title"
+          "name"
         ],
         "type": "object",
         "properties": {
@@ -1175,7 +1277,7 @@
             "type": "string",
             "format": "uuid"
           },
-          "title": {
+          "name": {
             "minLength": 1,
             "type": "string"
           },
@@ -1191,9 +1293,13 @@
             "type": "string",
             "format": "uuid"
           },
-          "enddate_at": {
+          "priority": {
             "type": "string",
-            "format": "date-time"
+            "nullable": true
+          },
+          "reporterId": {
+            "type": "string",
+            "nullable": true
           },
           "created_at": {
             "type": "string",
@@ -1203,24 +1309,6 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "TaskPostRequest": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "enddate_At": {
-            "type": "string",
-            "format": "date-time"
           }
         },
         "additionalProperties": false

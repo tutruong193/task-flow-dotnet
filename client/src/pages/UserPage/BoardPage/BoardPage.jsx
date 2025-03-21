@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { useCookies } from "react-cookie";
-import * as TaskService from "../../../services/TaskService";
 import * as ProjectService from "../../../services/ProjectService";
 import * as UserService from "../../../services/UserService";
 import * as ColumnService from "../../../services/ColumnService";
 import AddPeopleModal from "../../../components/ModalAddPeople/ModelAddPeople";
 import ModelAddColumn from "../../../components/ModelAddColumn/ModelAddColumn";
+import ModalReorderColumn from "../../../components/ModalReorderColumn/ModalReorderColumn";
+import { jwtTranslate } from "../../../ultilis";
+import { useCookies } from "react-cookie";
+import * as TaskService from "../../../services/TaskService";
+import * as Message from "../../../components/MessageComponent/MessageComponent";
 import {
   SearchOutlined,
   PlusOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
-import * as Message from "../../../components/MessageComponent/MessageComponent";
+
 import {
   Input,
   Button,
@@ -26,7 +29,7 @@ import {
 } from "antd";
 import ModalAddProject from "../../../components/ModalAddProject/ModalAddProject";
 import Column from "../../../components/Board/Column";
-import { jwtTranslate } from "../../../ultilis";
+
 const { Title, Text } = Typography;
 const BoardPage = () => {
   ///lấy dữ liệu để set name và avatar
@@ -43,12 +46,13 @@ const BoardPage = () => {
     const user = userData.find((user) => user.id === id);
     return user ? user.email : null;
   };
-  const projectId = localStorage.getItem("projectId");
+
   const [columns, setColumns] = useState([]);
   const [stateProject, setStateProject] = useState([]);
   const [userData, setUserData] = useState([]);
   const [cookiesAccessToken] = useCookies("");
   const infoUser = jwtTranslate(cookiesAccessToken.access_token);
+  const projectId = localStorage.getItem("projectId");
   const isExpired = new Date() > new Date(stateProject?.endDate);
   const isManager = infoUser?.role === "Manager";
   const fetchAllData = async () => {
@@ -61,27 +65,21 @@ const BoardPage = () => {
       ]);
 
       if (columnRes.status === 200) {
-        // Tạo columnsWithMeta với items là mảng rỗng và count ban đầu là 0
         const columnsWithMeta = columnRes.data.map((col) => ({
           ...col,
           count: 0, // Ban đầu đặt count là 0
           items: [], // Ban đầu items là mảng rỗng
         }));
 
-        // Cập nhật state columns
         setColumns(columnsWithMeta);
 
         if (taskRes.status === 200) {
           const taskData = taskRes.data;
-
-          // Cập nhật items và count cho từng column
           const updatedColumns = columnsWithMeta.map((col) => {
-            // Lọc các task có columnId trùng với id của column
             const columnTasks = taskData.filter(
               (task) => task.columnId === col.id
             );
 
-            // Cập nhật items và count
             return {
               ...col,
               items: columnTasks,
@@ -210,7 +208,10 @@ const BoardPage = () => {
   if (stateProject?.members) {
     // Sử dụng members thay vì membersID
     for (let i = 0; i < stateProject.members.length; i++) {
-      options.push(stateProject.members[i]);
+      options.push({
+        value: stateProject.members[i].userId,
+        label: takeName(stateProject.members[i].userId),
+      });
     }
   }
   //add members to project
@@ -244,49 +245,38 @@ const BoardPage = () => {
     }
   };
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [form] = Form.useForm(); // Form instance
   const showModal = () => {
     setIsModalVisible(true);
   };
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
-    form.resetFields(); // Reset the form fields
-  };
-  const handleAddTask = async (values) => {
-    try {
-      const newTask = {
-        name: values.name,
-        dueDate: values.dueDate.format("YYYY-MM-DD"),
-        projectId: projectId,
-        assignees: values.assignees,
-        description: values.description,
-      };
-      const res = await TaskService.createTask(newTask);
-      if (res.status === "OK") {
-        Message.success("Task added successfully!");
-        handleCancel();
-        fetchAllData();
-      } else {
-        Message.error(res.message);
-      }
-    } catch (error) {
-      console.error("Error adding task:", error);
-      Message.error("An error occurred while adding the task.");
-    }
-  };
   //add column
   const [isAddColumn, SetIsAddColumn] = useState(false);
-  const handleCancelAddColumn = () => {
-    SetIsAddColumn(false);
-    formAddColumn.resetFields(); // Reset the form fields
-  };
-
-  const onChangeFileRequired = (checked) => {};
-  const handleAddColumn = (values) => {
-    console.log("data", values); // Kiểm tra dữ liệu đầu vào từ Form
-  };
+  const [stateColumn, SetStateColumn] = useState({
+    name: "",
+  });
   const [formAddColumn] = Form.useForm();
+  const handleCancelAddColumn = () => {
+    SetIsAddColumn(stateColumn);
+    formAddColumn.resetFields();
+  };
+  const onChangeName = (event) => {
+    SetStateColumn((prev) => ({ ...prev, name: event.target.value }));
+  };
+  const handleAddColumn = async () => {
+    const newData = {
+      ...stateColumn,
+      position: columns?.length + 1,
+    };
+    const res = await ColumnService.createColumn(projectId, newData);
+    if (res.status == 201 || res.status == 200) {
+      SetIsAddColumn(false);
+      Message.success();
+      fetchAllData();
+      formAddColumn.resetFields();
+    } else {
+      Message.error(res.message);
+    }
+  };
   return (
     <div className="board-container">
       <div className="board-header">
@@ -313,7 +303,7 @@ const BoardPage = () => {
               },
             }}
           >
-            {options.map((member) =>
+            {stateProject.members?.map((member) =>
               takeAvatar(member?.userId) ? (
                 <Avatar
                   key={member?.userId}
@@ -364,6 +354,7 @@ const BoardPage = () => {
                 columnId={columnId}
                 column={column}
                 fetchAllData={fetchAllData}
+                options={options}
               />
             ))}
           </div>
@@ -376,20 +367,19 @@ const BoardPage = () => {
             onClick={() => SetIsAddColumn(true)}
           />
           <ModelAddColumn
+            formAddColumn={formAddColumn}
+            onChangeName={onChangeName}
             isModalAddColumn={isAddColumn}
             handleCancelAddColumn={handleCancelAddColumn}
-            formAddColumn={formAddColumn}
-            handleAddColum={handleAddColumn}
-            onChangeFileRequired={onChangeFileRequired}
+            handleAddColumn={handleAddColumn}
           />
         </div>
       </div>
       <ModalAddProject
         isModalVisible={isModalVisible}
-        handleCancel={handleCancel}
-        handleAddTask={handleAddTask}
-        form={form}
+        setIsModalVisible={setIsModalVisible}
         options={options}
+        fetchAllData={fetchAllData}
       />
       <AddPeopleModal
         isVisible={isModalAddPeopleOpen}
@@ -403,6 +393,11 @@ const BoardPage = () => {
         takeAvatar={takeAvatar}
         takeName={takeName}
         takeEmail={takeEmail}
+      />
+      <ModalReorderColumn
+        columns={columns}
+        setColumns={setColumns}
+        fetchAllData={fetchAllData}
       />
     </div>
   );

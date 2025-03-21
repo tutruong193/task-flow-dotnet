@@ -19,5 +19,10 @@ wwwroot\lib\jquery-validation\dist\jquery.validate.min.js
 wwwroot\lib\jquery-validation\LICENSE.md
 wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js
 wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js
-wwwroot\user-attachments\4094a56c-b42e-4c88-9ae3-1a0f3802e4a3~anh the.jpg
-wwwroot\user-attachments\7dd9966e-7492-47d7-864d-993385207620.jpg
+wwwroot\user-attachments\06b10963-6534-49e6-8748-6ebb9297c081-anh the.jpg
+wwwroot\user-attachments\379549a3-a415-4e83-a8b0-ace7159273da-anh the.jpg
+wwwroot\user-attachments\b5894c7a-6af0-46d2-9a81-367ef3068250-anh the.jpg
+wwwroot\user-attachments\bf94b521-db31-49c2-bfc4-6cb855b83883-căn cước.pdf
+wwwroot\user-attachments\ccf533ba-2b9b-4fc7-80b0-3b058bfee53b-căn cước.pdf
+wwwroot\user-attachments\f4de38a4-e3cd-4001-84f2-7edd7783aeb2-anh the.jpg
+wwwroot\user-attachments\fd6baaa5-e84c-4559-ad65-9b984aa30fc2-anh the.jpg

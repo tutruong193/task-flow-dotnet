@@ -16,23 +16,22 @@ namespace taskflow_server.Controllers
         {
             _context = context;
         }
-        [HttpPost]
-        public async Task<IActionResult> PostColumn(Column request)
+        [HttpPost("project/{projectId}")]
+        public async Task<IActionResult> PostColumn(string projectId, Column request)
         {
             var column = new Column
             {
                 Id = Guid.NewGuid(),
                 Name = request.Name,
                 Position = request.Position,
-                FileRequired = request.FileRequired,
-                ProjectId = request.ProjectId
+                ProjectId = Guid.Parse(projectId)
 
             };
             _context.Columns.Add(column);
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return CreatedAtAction(nameof(GetById), new { id = column.Id }, request);
+                return Ok();
             }
             else
             {
@@ -51,7 +50,6 @@ namespace taskflow_server.Controllers
                 Id = column.Id,
                 Name = column.Name,
                 Position = column.Position,
-                FileRequired = column.FileRequired,
                 ProjectId = column.ProjectId
             };
             return Ok(columnReturn);
@@ -69,40 +67,44 @@ namespace taskflow_server.Controllers
                 return NotFound();
             return Ok(columns);
         }
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutColumn(string id, [FromBody] Column request)
+        [HttpPut("project/{projectId}/batch-update")]
+        public async Task<IActionResult> UpdateColumns(string projectId, [FromBody] List<Column> columns)
         {
-            var column = await _context.Columns.FindAsync(id);
-            if (column == null)
-                return NotFound();
+            if (columns == null)
+                return BadRequest("No columns provided");
 
-            column.Name = request.Name;
-            column.Position = request.Position;
-            column.FileRequired = request.FileRequired;
+            var projectGuid = Guid.Parse(projectId);
 
-            _context.Columns.Update(column);
-            var result = await _context.SaveChangesAsync();
+            var existingColumns = await _context.Columns
+                                                .Where(c => c.ProjectId == projectGuid)
+                                                .ToListAsync();
 
-            if (result > 0)
+            var columnIds = columns.Select(c => c.Id).ToList();
+
+            var columnsToDelete = existingColumns.Where(c => !columnIds.Contains(c.Id)).ToList();
+
+            var columnsToUpdate = existingColumns.Where(c => columnIds.Contains(c.Id)).ToList();
+
+            foreach (var column in columnsToUpdate)
             {
-                return NoContent();
+                var updatedColumn = columns.First(c => c.Id == column.Id);
+                column.Name = updatedColumn.Name;
+                column.Position = updatedColumn.Position;
             }
-            return BadRequest();
-        }
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteColumn(string id)
-        {
-            var function = await _context.Columns.FindAsync(id);
-            if (function == null)
-                return NotFound();
-
-            _context.Columns.Remove(function);
-            var result = await _context.SaveChangesAsync();
-            if (result > 0)
+            if (columnsToDelete.Any())
             {
+                _context.Columns.RemoveRange(columnsToDelete);
+            }
+
+            _context.Columns.UpdateRange(columnsToUpdate);
+            var result = await _context.SaveChangesAsync();
+
+            if (result > 0)
                 return Ok();
-            }
-            return BadRequest();
+
+            return BadRequest("Failed to update columns");
         }
+
+
     }
 }

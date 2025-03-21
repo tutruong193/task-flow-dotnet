@@ -3,9 +3,12 @@
     public class TaskPostRequest
     {
 
-        public string? Title { get; set; }
-
+        public string? Name { get; set; }
+        public string Priority { get; set; }
         public string? Description { get; set; }
-        public DateTime Enddate_At { get; set; }
+        public string? Assignee { get; set; }
+        public string ? ReporterId { get; set; }
+        public List<IFormFile>? Attachment { get; set; }
+
     }
 }

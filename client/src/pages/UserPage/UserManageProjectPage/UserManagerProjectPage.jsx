@@ -3,6 +3,7 @@ import {
   SearchOutlined,
   FilterOutlined,
   PlusOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import {
   Input,
@@ -14,9 +15,12 @@ import {
   DatePicker,
   Select,
   Empty,
+  Table,
+  Tag,
+  Avatar,
+  Typography,
 } from "antd";
 import moment from "moment";
-import ProjectCardComponent from "../../../components/ProjectCardComponent/ProjectCardComponent";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useCookies } from "react-cookie";
@@ -24,12 +28,14 @@ import * as ProjectService from "../../../services/ProjectService";
 import { jwtTranslate } from "../../../ultilis";
 import * as UserService from "../../../services/UserService";
 import * as Message from "../../../components/MessageComponent/MessageComponent";
+const { Text } = Typography;
+
 const UserManagerProjectPage = () => {
   const [cookiesAccessToken, setCookieAccessToken, removeCookie] =
     useCookies("");
   const infoUser = jwtTranslate(cookiesAccessToken.access_token);
   const isManager = infoUser?.role == "Manager";
-  console.log(infoUser);
+  const navigate = useNavigate();
   // Fetch projects
   const fetchProjectAllByManageID = async () => {
     const res = await ProjectService.getAllProjectByManagerID(infoUser?.sub);
@@ -43,17 +49,17 @@ const UserManagerProjectPage = () => {
   });
 
   const { data: dataProject } = projectQuerry;
-  console.log(dataProject);
+
   // Modal add project
   const [formAddProject] = Form.useForm();
   const [isModalAddProject, setIsModalAddProject] = useState(false);
+
   // Fetch user data for searching members
   const [userData, setUserData] = useState([]);
   useEffect(() => {
     const fetchUserAll = async () => {
       try {
         const res = await UserService.getAllUser();
-        // Format userData to suit AutoComplete's requirement
         const formattedUsers = res?.data
           .filter((user) => user.role == "Member")
           .map((user) => ({
@@ -67,7 +73,8 @@ const UserManagerProjectPage = () => {
     };
     fetchUserAll();
   }, []);
-  //action when adding project
+
+  // Action when adding project
   const [stateAddProject, setStateAddProject] = useState({
     name: "",
     description: "",
@@ -76,21 +83,24 @@ const UserManagerProjectPage = () => {
     managerID: infoUser?.sub,
     members: [],
   });
+
   const handleOnChangeAddProject = (e) => {
     setStateAddProject({
       ...stateAddProject,
       [e.target.name]: e.target.value,
     });
   };
+
   const handleChangeSelectMember = (value) => {
     setStateAddProject((prevState) => ({
       ...stateAddProject,
       members: value,
     }));
   };
+
   const onChangeDate = (name, date) => {
     if (date) {
-      const formattedDate = date.utc().format("YYYY-MM-DDTHH:mm:ss[Z]"); // Sử dụng định dạng UTC ISO
+      const formattedDate = moment(date).utc().format("YYYY-MM-DDTHH:mm:ss[Z]"); // Sử dụng định dạng UTC ISO
       setStateAddProject((prevState) => ({
         ...prevState,
         [name]: formattedDate,
@@ -102,6 +112,7 @@ const UserManagerProjectPage = () => {
       }));
     }
   };
+
   const showModalAddProject = () => {
     setIsModalAddProject(true);
   };
@@ -118,6 +129,7 @@ const UserManagerProjectPage = () => {
     });
     formAddProject.resetFields();
   };
+
   const handleAddProject = async () => {
     try {
       await formAddProject.validateFields();
@@ -142,6 +154,69 @@ const UserManagerProjectPage = () => {
       console.log("Failed:", errorInfo);
     }
   };
+
+  // Table columns
+  const columns = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      render: (text, record) => (
+        <Text
+          strong
+          style={{ cursor: "pointer", color: "#1890ff" }}
+          onClick={() => handleCardClick(record.id)}
+        >
+          {text}
+        </Text>
+      ),
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+      render: (text) => (
+        <Text type="secondary">{text || "No description"}</Text>
+      ),
+    },
+    {
+      title: "Start Date",
+      dataIndex: "startDate",
+      key: "startDate",
+      render: (text) => moment(text).format("DD/MM/YYYY"),
+    },
+    {
+      title: "End Date",
+      dataIndex: "endDate",
+      key: "endDate",
+      render: (text) => moment(text).format("DD/MM/YYYY"),
+    },
+    {
+      title: "Members",
+      dataIndex: "members",
+      key: "members",
+      render: (members) => (
+        <Avatar.Group maxCount={3}>
+          {members.map((member) => (
+            <Avatar key={member} icon={<UserOutlined />} />
+          ))}
+        </Avatar.Group>
+      ),
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status) => {
+        // const isFinished = new Date(endDate) < new Date();
+        return <Tag color={"green"}>{status}</Tag>;
+      },
+    },
+  ];
+  const handleCardClick = async (projectId) => {
+    navigate(`/system/user/project/board`);
+    localStorage.setItem("projectId", projectId);
+  };
   return (
     <div style={{ minHeight: "100vh", padding: "40px" }}>
       <h2 style={{ fontSize: "25px", paddingBottom: "20px", fontWeight: 700 }}>
@@ -161,68 +236,30 @@ const UserManagerProjectPage = () => {
             </h2>
             <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
               {isManager && (
-                <div className="title-default" onClick={showModalAddProject}>
+                <Button
+                  type="primary"
+                  icon={<PlusOutlined />}
+                  onClick={showModalAddProject}
+                >
                   Create a new project
-                </div>
+                </Button>
               )}
             </div>
           </div>
-          <Row className="projects" gutter={[16, 16]}>
-            {dataProject?.length > 0 ? (
-              dataProject.map((project) => (
-                <Col key={project.id} span={4}>
-                  <ProjectCardComponent
-                    projectId={project.id}
-                    projectQuerry={projectQuerry}
-                    projectData={project}
-                  />
-                </Col>
-              ))
-            ) : (
-              <Col span={24}>
+          <Table
+            columns={columns}
+            dataSource={dataProject}
+            rowKey="id"
+            locale={{
+              emptyText: (
                 <Empty
                   description="No recent projects found"
                   image={Empty.PRESENTED_IMAGE_SIMPLE}
                 />
-              </Col>
-            )}
-          </Row>
-        </div>
-        <div className="container-title">
-          <h2
-            style={{
-              fontSize: "15px",
-              fontWeight: 600,
-              fontFamily: "Roboto, sans-serif",
-              padding: "20px 0px",
+              ),
             }}
-          >
-            Finished projects
-          </h2>
+          />
         </div>
-        <Row className="projects" gutter={[16, 16]}>
-          {dataProject?.filter(
-            (project) => new Date(project.endDate) < new Date()
-          ).length > 0 ? (
-            dataProject
-              ?.filter((project) => new Date(project.endDate) < new Date())
-              .map((project) => (
-                <Col key={project._id} span={4}>
-                  <ProjectCardComponent
-                    projectId={project._id}
-                    projectQuerry={projectQuerry}
-                  />
-                </Col>
-              ))
-          ) : (
-            <Col span={24}>
-              <Empty
-                description="No finished projects found"
-                image={Empty.PRESENTED_IMAGE_SIMPLE}
-              />
-            </Col>
-          )}
-        </Row>
       </div>
 
       <Modal
@@ -263,11 +300,7 @@ const UserManagerProjectPage = () => {
 
           <Form.Item
             label="Start at:"
-            name="startDate" // Đặt đúng tên name
-            format={{
-              format: "YYYY-MM-DD HH:mm:ss",
-              type: "mask",
-            }}
+            name="startDate"
             rules={[
               { required: true, message: "Please select the start date!" },
             ]}
@@ -275,7 +308,6 @@ const UserManagerProjectPage = () => {
             <DatePicker
               onChange={(date) => onChangeDate("startDate", date)}
               disabledDate={(current) => {
-                // Không cho phép chọn ngày trước hôm nay
                 return current && current < moment().startOf("day");
               }}
             />
@@ -284,16 +316,11 @@ const UserManagerProjectPage = () => {
           <Form.Item
             label="End at:"
             name="endDate"
-            format={{
-              format: "YYYY-MM-DD HH:mm:ss",
-              type: "mask",
-            }}
             rules={[{ required: true, message: "Please select the end date!" }]}
           >
             <DatePicker
               onChange={(date) => onChangeDate("endDate", date)}
               disabledDate={(current) => {
-                // Không cho phép chọn ngày trước hôm nay
                 return current && current < moment().startOf("day");
               }}
             />

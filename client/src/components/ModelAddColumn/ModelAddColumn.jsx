@@ -1,19 +1,12 @@
 import React from "react";
 import { Modal, Space, Form, Input, Switch, Button } from "antd";
-import {
-  PlusOutlined,
-  CloseOutlined,
-  InfoCircleOutlined,
-  UserOutlined,
-  CalendarOutlined,
-  TagOutlined,
-} from "@ant-design/icons";
+
 const ModelAddColumn = ({
+  onChangeName,
   isModalAddColumn,
   handleCancelAddColumn,
   handleAddColumn,
   formAddColumn,
-  onChangeFileRequired,
 }) => {
   return (
     <Modal
@@ -24,43 +17,47 @@ const ModelAddColumn = ({
       }
       open={isModalAddColumn}
       onCancel={handleCancelAddColumn}
-      footer={null}
+      footer={[
+        <Button key="cancel" onClick={handleCancelAddColumn}>
+          Cancel
+        </Button>,
+        <Button
+          key="submit"
+          type="primary"
+          onClick={() => formAddColumn.submit()} // Submit form khi nhấn OK
+        >
+          Add Column
+        </Button>,
+      ]}
       width={520}
       centered
     >
       <Form
         form={formAddColumn}
-        onFinish={handleAddColumn}
         layout="vertical"
         initialValues={{
-          priority: "high",
-          description: "",
+          name: "",
+          fileRequired: true,
         }}
+        onFinish={handleAddColumn} // Gọi khi form hợp lệ
       >
         <Form.Item
-          label="Colum Name"
+          label="Column Name"
           name="name"
           rules={[
             {
               required: true,
-              message: "Please input the Colum name!",
+              message: "Please input the Column name!",
             },
           ]}
         >
-          <Input placeholder="Enter Colum name" allowClear />
-        </Form.Item>
-        <Form.Item label="File Required" name="fileRequired">
-          <Switch defaultChecked onChange={onChangeFileRequired} />
+          <Input
+            placeholder="Enter Column name"
+            allowClear
+            onChange={onChangeName}
+          />
         </Form.Item>
       </Form>
-      <Form.Item>
-        <Space>
-          <Button type="primary" htmlType="submit">
-            Add
-          </Button>
-          <Button onClick={handleCancelAddColumn}>Cancel</Button>
-        </Space>
-      </Form.Item>
     </Modal>
   );
 };

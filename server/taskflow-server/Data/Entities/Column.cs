@@ -16,7 +16,5 @@ namespace taskflow_server.Data.Entities
         public string? Name { get; set; } // To Do, In Progress, Done
 
         public int Position { get; set; }
-
-        public bool FileRequired { get; set; } // Yêu cầu đính kèm file?
     }
 }

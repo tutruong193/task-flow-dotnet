@@ -1,23 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import dayjs from "dayjs";
-import {
-  Typography,
-  Avatar,
-  Tag,
-  Tooltip,
-  Checkbox,
-  Progress,
-  Card,
-  Space,
-} from "antd";
+import { Typography, Avatar, Tag, Tooltip, Card, Space } from "antd";
 import * as TaskService from "../../services/TaskService";
 import {
   ClockCircleOutlined,
-  DeploymentUnitOutlined,
   UserOutlined,
   FileTextOutlined,
-  PlusCircleFilled,
 } from "@ant-design/icons";
 import ModelDetailTask from "../ModelDetailTask/ModelDetailTask";
 import * as UserService from "../../services/UserService";
@@ -26,56 +15,28 @@ import { jwtTranslate } from "../../ultilis";
 import { useCookies } from "react-cookie";
 import * as Message from "../../components/MessageComponent/MessageComponent";
 dayjs.extend(relativeTime);
-// Thay đổi mảng columns để phù hợp với dữ liệu mới
-const dateFormatOptions = {
-  day: "2-digit",
-  month: "long", // Tháng dưới dạng chữ
-  year: "numeric",
-};
-const renderDate = (date) => {
-  if (!date) return "N/A"; // Nếu không có giá trị, trả về "N/A"
-  const parsedDate = new Date(date);
-  if (isNaN(parsedDate)) return "Invalid Date"; // Kiểm tra xem có phải là ngày hợp lệ không
-  return new Intl.DateTimeFormat("en-US", dateFormatOptions).format(parsedDate);
-};
+
 const { Text, Paragraph } = Typography;
-const itemPriority = [
-  {
-    label: "High",
-    value: "high",
-  },
-  {
-    label: "Medium",
-    value: "medium",
-  },
-  {
-    label: "Low",
-    value: "low",
-  },
-];
-const Item = ({ item, index, fetchAllData }) => {
-  ///lấy dữ liệu để set name và avatar
+
+const priorityColors = {
+  high: "#ff4d4f", // Red for high priority
+  medium: "#faad14", // Orange for medium priority
+  low: "#52c41a", // Green for low priority
+};
+const Item = ({ item, index, fetchAllData, columnId, options }) => {
   const [userList, setUserList] = useState([]);
-  const takeAvatar = (id) => {
-    const user = userList.find((user) => user._id === id);
-    return user ? user.avatar : null;
-  };
-  const takeName = (id) => {
-    const user = userList.find((user) => user._id === id);
-    return user ? user.name : null;
-  };
-  const takeEmail = (id) => {
-    const user = userList.find((user) => user._id === id);
-    return user ? user.email : null;
-  };
+  const [cookiesAccessToken] = useCookies("");
+  const infoUser = jwtTranslate(cookiesAccessToken.access_token);
+  const [isModalTaskInformation, setIsModalTaskInformation] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
+  // Fetch user data for avatar and name
   const fetchMemberList = async () => {
     try {
       const userRes = await UserService.getAllUser();
-
-      if (userRes.status == 200) {
+      if (userRes.status === 200) {
         setUserList(userRes.data);
       } else {
-        console.error("Error fetching project details");
+        console.error("Error fetching user details");
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -84,15 +45,22 @@ const Item = ({ item, index, fetchAllData }) => {
   useEffect(() => {
     fetchMemberList();
   }, [index, item]);
-  const [cookiesAccessToken] = useCookies("");
-  const infoUser = jwtTranslate(cookiesAccessToken.access_token);
-  // Modal for task information
-  const [isModalTaskInformation, setIsModalTaskInformation] = useState(false);
-  const [selectedTask, setSelectedTask] = useState(null);
+
+  const takeAvatar = (id) => {
+    const user = userList.find((user) => user.id == id);
+    return user ? user.avatar : null;
+  };
+
+  const takeName = (id) => {
+    const user = userList.find((user) => user.id == id);
+    return user ? user.name : null;
+  };
   const showModal = async (key) => {
     setIsModalTaskInformation(true);
     setSelectedTask(key);
   };
+  // Check if the task is in the "Done" column
+  const isDone = columnId === "done";
   return (
     <div>
       <Draggable draggableId={item.id} index={index}>
@@ -102,104 +70,90 @@ const Item = ({ item, index, fetchAllData }) => {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             className={`task-card ${snapshot.isDragging ? "dragging" : ""}`}
-            onClick={() => showModal(item._id)}
+            onClick={() => showModal(item.id)}
           >
-            <Space direction="vertical" size="small" style={{ width: "100%" }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
+            <div
+              style={{
+                borderLeft: `4px solid ${priorityColors[item.priority]}`,
+                padding: "12px",
+                margin: "-10px",
+                backgroundColor: "#fff",
+                borderRadius: "4px",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              <Space
+                direction="vertical"
+                size="small"
+                style={{ width: "100%" }}
               >
-                <div>
-                  <Tag color={"blue"} style={{ marginBottom: "4px" }}>
-                    Task
-                  </Tag>
+                {/* Task Name with strikethrough if done */}
+                <Text
+                  strong
+                  style={{
+                    textDecoration: isDone ? "line-through" : "none",
+                    fontSize: "16px",
+                  }}
+                >
+                  {item.name}
+                </Text>
+
+                {/* Task Description */}
+                <Paragraph
+                  ellipsis={{ rows: 2 }}
+                  type="secondary"
+                  style={{ marginBottom: 8 }}
+                >
+                  <FileTextOutlined style={{ marginRight: 8 }} />
+                  {item.description || "No description"}
+                </Paragraph>
+
+                {/* Assignee */}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    gap: "8px",
+                  }}
+                >
+                  {item.assignee ? (
+                    <Tooltip
+                      title={`Assigned to: ${takeName(item.assignee?.userId)}`}
+                    >
+                      {takeAvatar(item.assignee?.userId) ? (
+                        <Avatar
+                          src={takeAvatar(item.assignee?.userId)}
+                          alt={takeName(item.assignee?.userId)}
+                          title={takeName(item.assignee?.userId)}
+                        />
+                      ) : (
+                        <Avatar
+                          style={{
+                            backgroundColor: "#87d068",
+                            cursor: "pointer",
+                          }}
+                          alt={takeName(item?.assignee?.userId)}
+                          title={takeName(item?.assignee?.userId)}
+                        >
+                          {takeName(item?.assignee?.userId)
+                            ?.charAt(0)
+                            .toUpperCase()}
+                        </Avatar>
+                      )}
+                    </Tooltip>
+                  ) : (
+                    <Tooltip title="Unassigned">
+                      <Avatar icon={<UserOutlined />} />
+                    </Tooltip>
+                  )}
                 </div>
-
-                {/* Due Date */}
-                {item.dueDate && (
-                  <Tooltip title="Due Date">
-                    <Space>
-                      <Text type="secondary" className="task-date">
-                        {renderDate(item.dueDate)}
-                      </Text>
-                    </Space>
-                  </Tooltip>
-                )}
-              </div>
-
-              {/* Task Name */}
-              <Text strong>{item.name}</Text>
-
-              {/* Task Description */}
-
-              <Paragraph
-                ellipsis={{ rows: 2 }}
-                type="secondary"
-                style={{ marginBottom: 8 }}
-              >
-                <FileTextOutlined style={{ marginRight: 8 }} />
-                {item.description || "None"}
-              </Paragraph>
-
-              {/* Assignee */}
-
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  gap: "20px",
-                }}
-              >
-                {" "}
-                {item.subtasks && item.subtasks.length > 0 ? (
-                  <Tooltip
-                    title={`${
-                      item.subtasks.filter((s) => s.status === "done").length
-                    } of ${item.subtasks.length} child issues done`}
-                  >
-                    <DeploymentUnitOutlined
-                      style={{ opacity: 0.5, fontSize: 20 }}
-                    />
-                  </Tooltip>
-                ) : null}
-                {item.assignees ? (
-                  <Tooltip title={`Assigned to: ${takeName(item.assignees)}`}>
-                    {takeAvatar(item.assignees) ? (
-                      <Avatar
-                        src={takeAvatar(item.assignees)}
-                        alt={takeName(item.assignees)}
-                        title={takeName(item.assignees)}
-                      />
-                    ) : (
-                      <Avatar
-                        key={item.assignees}
-                        style={{
-                          backgroundColor: "#87d068",
-                          cursor: "pointer",
-                        }}
-                        alt={takeName(item.assignees)}
-                        title={takeName(item.assignees)}
-                      >
-                        {takeName(item.assignees)?.charAt(0).toUpperCase()}
-                      </Avatar>
-                    )}
-                  </Tooltip>
-                ) : (
-                  <Tooltip title={`Assigned to: None`}>
-                    <Avatar
-                      src={takeAvatar(item.assignees)}
-                      icon={<UserOutlined />}
-                    />
-                  </Tooltip>
-                )}
-              </div>
-            </Space>
+              </Space>
+            </div>
           </div>
         )}
       </Draggable>
+
+      {/* Task Detail Modal */}
       <ModelDetailTask
         taskID={selectedTask}
         isModalTaskInformation={isModalTaskInformation}
@@ -207,10 +161,10 @@ const Item = ({ item, index, fetchAllData }) => {
           setSelectedTask(null);
           setIsModalTaskInformation(false);
         }}
+        options={options}
         infoUser={infoUser}
         takeAvatar={takeAvatar}
         takeName={takeName}
-        takeEmail={takeEmail}
         fetchAllData={fetchAllData}
       />
     </div>

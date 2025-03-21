@@ -1,7 +1,6 @@
 import AccountPage from "../pages/Admin/AccountPage/AccountPage";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import NotPoundPage from "../pages/NotFoundPage/NotPoundPage";
-import ListPage from "../pages/UserPage/ListPage/ListPage";
 import BoardPage from "../pages/UserPage/BoardPage/BoardPage";
 import UserManagerProjectPage from "../pages/UserPage/UserManageProjectPage/UserManagerProjectPage";
 import ForgotPassword from "../pages/LoginPage/ForgotPassword";
@@ -46,18 +45,11 @@ export const routes = [
     isShowSider: false,
   },
   {
-    path: "/system/user/project/list",
-    page: ListPage,
-    isShowHeader: true,
-    requiresAuth: true,
-    isShowSider: true,
-  },
-  {
     path: "/system/user/project/board",
     page: BoardPage,
     isShowHeader: true,
     requiresAuth: true,
-    isShowSider: true,
+    isShowSider: false,
   },
   {
     path: "/login",

@@ -6,3 +6,17 @@ export const getColumnByProjectId = async (projectId) => {
   );
   return res;
 };
+export const createColumn = async (projectId, data) => {
+  const res = await axios.post(
+    `${process.env.REACT_APP_API_URL}/api/columns/project/${projectId}`,
+    data
+  );
+  return res;
+};
+export const updatedColumns = async (projectId, data) => {
+  const res = await axios.put(
+    `${process.env.REACT_APP_API_URL}/api/columns/project/${projectId}/batch-update`,
+    data
+  );
+  return res;
+};
